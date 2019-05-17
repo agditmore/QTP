@@ -9,6 +9,8 @@ ReactDOM.render(
 <MyAwesomeFirstComponent 
 firstName="Charles"
 lastName="Xavier"
+middleName="Sam"
+age={{number: 100}}
 />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
