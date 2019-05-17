@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import MyAwesomeFirstComponent from './MyAwesomeFirstComponent';
+import MyAwesomeFirstComponent from './Components/MyAwesomeFirstComponent';
 
 ReactDOM.render(
 <MyAwesomeFirstComponent 
-firstName="Charles"
-lastName="Xavier"
-middleName="Sam"
-age={{number: 100}}
 />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
