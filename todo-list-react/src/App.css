@@ -64,7 +64,7 @@ body {
         justify-content: flex-start;
 }
 
-.todo.complete {
+input:checked + span {
     text-decoration: line-through;
     color: #ccc;
 }
