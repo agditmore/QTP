@@ -50,7 +50,7 @@ handleEnterPress = (event) => {
 }
 
 handleClick = (event, todoChanged) => {
-  const newArray = this.state.todos.map((todoOld) => todoOld === todoChanged ? {
+  const newArray = this.state.todos.map((todoOld) => todoOld.id === todoChanged.id ? {
     id: todoOld.id,
     name: todoOld.name,
     completed: !todoOld.completed
@@ -58,6 +58,16 @@ handleClick = (event, todoChanged) => {
   this.setState({
     todos: newArray
   });
+}
+
+// handleClick = (event, todoChanged) => {
+//   this.setState({
+//     todos: [...this.state.todos, {id: todoChanged.id, name: todoChanged.name, completed: !todoChanged.completed}]
+//   })
+// }
+
+handleButtonClick = () => {
+
 }
 
 render(){
