@@ -52,10 +52,15 @@ body {
           box-sizing: border-box;
 }
 
+#todo-item-box {
+  max-width: 550px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 .todo-container {
     text-align: left;
     padding: 12px;
-    border-top: 1px solid #ccc;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: row;
@@ -84,16 +89,18 @@ input:checked + span {
     font-weight: 100;
 }
 
-input[type=text] {
-    width: 600px;
+#input-box {
     border: 0;
     height: 40px;
-    margin-top: 20px;
     font-size: 20px;
-    padding: 8px;
     max-width: 600px;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    width: 100%;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+.input-box-container {
+  padding-left: 25px;
 }
 
 #remaining-count {

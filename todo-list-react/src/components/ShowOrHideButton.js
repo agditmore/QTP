@@ -1,11 +1,10 @@
 import React from 'react';
 
 const ShowOrHideButton = (props) => {
-    let buttonText = "Hide Completed Todos";
-
+    const notCompletedTodos = props.todos.filter((todo) => todo.completed===false)
     return (
-        <div>
-            <button onClick={() => }>{buttonText}</button>
+        <div className="input-box-container">
+            <button onClick={() => props.onClick(notCompletedTodos)}>{props.show ? "Hide Completed Todos":"Show Completed Todos"}</button>
         </div>
     )
 }

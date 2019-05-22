@@ -3,6 +3,9 @@ import './App.css';
 import TodoList from './components/TodoList';
 import InputTodo from './components/InputTodo';
 import TodoCount from './components/TodoCount';
+import ShowOrHideButton from './components/ShowOrHideButton';
+
+let StoredAllTodos = [];
 
 class App extends React.Component {
   constructor (props) {
@@ -11,34 +14,39 @@ class App extends React.Component {
       todos: [
         {
           id: 1,
-          name: "example todo",
+          name: "Do laundry",
           completed: false
         }, 
         {
           id: 2,
-          name: "2nd example",
+          name: "Take out trash",
+          completed: false
+        },
+        {
+          id: 3,
+          name: "Walk dog",
           completed: false
         }
       ],
       todoText: '',
-      count: 0
+      count: 0,
+      show: true
     }
 }
 
-handleChange = (event) => {
+handleInputChange = (event) => {
   this.setState({
     todoText: event.target.value
   });
 }
 
 handleEnterPress = (event) => {
-  console.log("here");
-  if (event.key === 'Enter') {
+  if (event.key === 'Enter' && event.target.value.trim() !== "") {
     const newObject={
-                      id: this.state.todos.length+1, 
-                      name: event.target.value,
-                      completed: false
-                    }
+      id: this.state.todos.length+1, 
+      name: event.target.value.trim(),
+      completed: false
+    }
     this.setState({
       todoText: '',
       todos: [
@@ -49,7 +57,7 @@ handleEnterPress = (event) => {
   }
 }
 
-handleClick = (event, todoChanged) => {
+handleCheckboxClick = (event, todoChanged) => {
   const newArray = this.state.todos.map((todoOld) => todoOld.id === todoChanged.id ? {
     id: todoOld.id,
     name: todoOld.name,
@@ -60,14 +68,20 @@ handleClick = (event, todoChanged) => {
   });
 }
 
-// handleClick = (event, todoChanged) => {
-//   this.setState({
-//     todos: [...this.state.todos, {id: todoChanged.id, name: todoChanged.name, completed: !todoChanged.completed}]
-//   })
-// }
-
-handleButtonClick = () => {
-
+handleButtonClick = (notCompletedTodos) => {
+  if (this.state.show){
+    StoredAllTodos = this.state.todos;
+      this.setState({
+        show: false,
+        todos: notCompletedTodos 
+      })
+  }
+  else {
+    this.setState({
+      show: true,
+      todos: StoredAllTodos
+    })
+  }
 }
 
 render(){
@@ -75,16 +89,21 @@ render(){
     <div>
       <TodoList 
         todos={this.state.todos}
-        onClick={this.handleClick}
+        onClick={this.handleCheckboxClick}
       />
       <InputTodo 
         onKeyDown={this.handleEnterPress}
-        onChange={(event) => this.handleChange(event, 'todoText')}
+        onChange={(event) => this.handleInputChange(event, 'todoText')}
         todoText={this.state.todoText}
         todos={this.state.todos}
       />
       <TodoCount 
         count={this.state.count}
+        todos={this.state.todos}
+      />
+      <ShowOrHideButton 
+        onClick={this.handleButtonClick}
+        show={this.state.show}
         todos={this.state.todos}
       />
     </div>
