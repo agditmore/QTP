@@ -29,8 +29,15 @@ class App extends React.Component {
         }
       ],
       count: 0,
-      show: true
+      show: true,
+      todoText: ""
     }
+}
+
+handleInputChange = (event) => {
+  this.setState({
+    todoText: event.target.value
+  });
 }
 
 handleEnterPress = (event) => {
@@ -88,6 +95,7 @@ render(){
         onKeyDown={this.handleEnterPress}
         todoText={this.state.todoText}
         todos={this.state.todos}
+        onChange={(event) => this.handleInputChange(event, 'todoText')}
       />
       <TodoCount 
         count={this.state.count}

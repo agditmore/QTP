@@ -8,15 +8,20 @@ const TodoList = (props) => {
                 <div className="todo" id="todo-item-box">
                     {props.todos.map((todo) => {
                             return (
-                                <div className="todo-container" key={todo.id} onClick={(event) => props.onClick(event,todo)}>
-                                    <input type="checkbox" checked={todo.completed} className="todo-checkbox" onChange={()=>null} onClick={(event) => props.onClick(event,todo)} />
+                                <div className="todo-container" 
+                                    key={todo.id} 
+                                    onClick={(event) => props.onClick(event,todo)}>
+                                    <input className="todo-checkbox"
+                                        type="checkbox" 
+                                        checked={todo.completed} 
+                                        onChange={()=>null} 
+                                        onClick={(event) => props.onClick(event,todo)} 
+                                    />
                                     <span id="todo-item-box">{todo.name}</span>
                                 </div>
                             )
-                            }
-                    )
-                    }
-
+                        }
+                    )}
                 </div>
             </div>
         </div>);

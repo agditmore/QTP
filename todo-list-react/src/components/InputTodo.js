@@ -9,7 +9,8 @@ const InputTodo = (props) => {
         value={props.todoText}
         onKeyDown={props.onKeyDown}
         placeholder="Enter new todo here" 
-        onChange={()=>null}/>
+        onChange={props.onChange}
+        />
         </div>
     );
 };
