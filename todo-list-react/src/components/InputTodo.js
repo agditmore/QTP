@@ -7,9 +7,9 @@ const InputTodo = (props) => {
         id="input-box"
         type="text"
         value={props.todoText}
-        onChange={props.onChange}
         onKeyDown={props.onKeyDown}
-        placeholder="Enter new todo here" />
+        placeholder="Enter new todo here" 
+        onChange={()=>null}/>
         </div>
     );
 };

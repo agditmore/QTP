@@ -15,7 +15,7 @@ class App extends React.Component {
         {
           id: 1,
           name: "Do laundry",
-          completed: false
+          completed: true
         }, 
         {
           id: 2,
@@ -28,16 +28,9 @@ class App extends React.Component {
           completed: false
         }
       ],
-      todoText: '',
       count: 0,
       show: true
     }
-}
-
-handleInputChange = (event) => {
-  this.setState({
-    todoText: event.target.value
-  });
 }
 
 handleEnterPress = (event) => {
@@ -93,7 +86,6 @@ render(){
       />
       <InputTodo 
         onKeyDown={this.handleEnterPress}
-        onChange={(event) => this.handleInputChange(event, 'todoText')}
         todoText={this.state.todoText}
         todos={this.state.todos}
       />
