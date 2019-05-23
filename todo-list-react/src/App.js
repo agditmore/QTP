@@ -41,10 +41,11 @@ handleInputChange = (event) => {
 }
 
 handleEnterPress = (event) => {
-  if (event.key === 'Enter' && event.target.value.trim() !== "") {
+  if (event.key === 'Enter' && this.state.todoText.trim() !== "") {
+
     const newObject={
       id: this.state.todos.length+1, 
-      name: event.target.value.trim(),
+      name: this.state.todoText.trim(),
       completed: false
     }
     this.setState({
