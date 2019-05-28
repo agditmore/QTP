@@ -14,42 +14,91 @@ class App extends React.Component {
       captionString: '',
       posts: [
         {
+          id: 3,
+          poster: 'Baguette',
+          location: 'Pawshington University in St. Louis',
+          displayedImageIndex: 0,
+          images: [
+            {
+              id:1,
+              image: 'https://imgur.com/6nWI90H.png',
+              alt: 'Feelin cute might delete later picture'
+            }
+          ],
+          caption: 'Feelin cute might delete later',
+          numberOfLikes: 4,
+          likedByMe: false,
+          showWagImage: false,
+          commentString: '',
+          commentLog: [
+            {
+              id: 1,
+              name: 'Oliver',
+              comment: 'lookin good!',
+              hide: false
+            }
+          ]
+        },
+        {
           id: 2,
+          poster: 'Casper',
+          location: 'Forest Bark',
           displayedImageIndex: 0,
           images: [
             {
               id: 1,
-              image: 'https://imgur.com/u3Z67xt.png',
+              image: 'https://imgur.com/4wIXQ5f.png',
               alt: 'WOW BEST DAY EVER picture'
-            }
+            },
+            {
+              id: 2,
+              image: 'https://imgur.com/QcOTaVP.png',
+              alt: 'WOW BEST DAY EVER picture'
+            },
+            {
+              id: 3,
+              image: 'https://imgur.com/ksMqZ8L.png',
+              alt: 'WOW BEST DAY EVER picture'
+            },
+            {
+              id: 4,
+              image: 'https://imgur.com/RmhKwXM.png',
+              alt: 'WOW BEST DAY EVER picture'
+            },
           ],
           caption: 'WOW BEST DAY EVER',
           numberOfLikes: 3,
-          likedByMe: true,
+          likedByMe: false,
           showWagImage: false,
           showComments: true,
           commentString: '',
           commentLog: [
             {id: 1,
             name: 'Tavi',
-            comment: 'omg so jelly'},
+            comment: 'omg so jelly',
+            hide: false
+            },
             {id: 2,
-            name: 'Oliver',
-            comment: 'Save some for me!!!!!!'},
+            name: 'Indy',
+            comment: 'Wish I were there!',
+            hide: false
+          },
           ]
         },
         {
           id: 1,
+          poster: 'Indy',
+          location: 'Southhound City',
           displayedImageIndex: 0,
           images: [
             {
               id: 1,
-              image: 'https://imgur.com/E91ZzL7.png',
+              image: 'https://imgur.com/dFEJIyt.png',
               alt: 'The Enemy has been spotted. BE ON ALERT! picture'
             },
             {
               id: 2,
-              image: 'https://imgur.com/dIzhvO7.png',
+              image: 'https://imgur.com/ErnQIxy.png',
               alt: 'The Enemy has been spotted. BE ON ALERT! picture'
             }
           ],
@@ -62,10 +111,14 @@ class App extends React.Component {
           commentLog: [
             {id: 1,
             name: 'Casper',
-            comment: 'Wait what? Is something happening?'},
+            comment: 'Wait what? Is something happening?',
+            hide: false
+          },
             {id: 2,
             name: 'Pi',
-            comment: 'OMG BORK BORK BORK BORK BORK'},
+            comment: 'OMG BORK BORK BORK BORK BORK',
+            hide: false
+          },
           ],
         }
       ],
@@ -96,14 +149,13 @@ class App extends React.Component {
   }
 
   handleShowOrHideCommentsButtonClick = (event, changedPostItem) => {
-    const newArray3 = this.state.posts.map((postItem) => postItem.id === changedPostItem.id ? 
-      {
-        ...postItem,
-        showComments: !postItem.showComments,
-      }
-      :postItem)
       this.setState({
-        posts: newArray3
+        posts: this.state.posts.map((postItem) => postItem.id === changedPostItem.id ? 
+        {
+          ...postItem,
+          showComments: !postItem.showComments,
+        }
+        :postItem)
       })
   }
 
@@ -126,13 +178,15 @@ class App extends React.Component {
   }
 
   handleDoubleClick = (event, changedPostItem) => {
-    this.handleLikeButtonClick(event, changedPostItem);
-    if (changedPostItem.likedByMe === true) {
+    if (changedPostItem.likedByMe === false) {
+      updatedNumberOfLikes = changedPostItem.numberOfLikes + 1;
       this.setState({
         posts: this.state.posts.map((postItem) => postItem.id === changedPostItem.id ? 
         {
           ...postItem,
-          showWagImage: true
+          numberOfLikes: updatedNumberOfLikes,
+          likedByMe: !postItem.likedByMe,
+          showWagImage: true,
         }
         :postItem)
       })
@@ -143,9 +197,8 @@ class App extends React.Component {
           showWagImage: false
         }
         :postItem)
-      }), 2000)
+      }), 1000)
     }
-    
   }
 
   handleRightArrowButtonClick = (event, changedPostItem) => {
@@ -173,15 +226,17 @@ class App extends React.Component {
   }
 
   handleEnterPress = (event, urlString, captionString) => {
-    const urlArray = urlString.split(",")
-
-    const imageArray = urlArray.map(url => {
-      return {id: urlArray.indexOf(url)+1, image: url.trim(), alt: captionString + ' picture'}
-    })
-
     if (event.key === "Enter"){
+      const urlArray = urlString.split(",")
+
+      const imageArray = urlArray.map(url => {
+        return {id: urlArray.indexOf(url)+1, image: url.trim(), alt: captionString + ' picture'}
+      })
+
       let newObject = {
         id: this.state.posts.length+1,
+        poster: 'Me',
+        location: 'Unipup',
         displayedImageIndex: 0,
         images: imageArray,
         caption: captionString,
@@ -203,12 +258,35 @@ class App extends React.Component {
     }
   }
 
+  handleHideClickForComment = (event, postId, commentId) => {
+    const changedCommentLog = this.state.posts.find((postItem) => 
+      postItem.id === postId).commentLog.map((commentItem) => 
+        commentItem.id === commentId 
+        ? {
+            ...commentItem, 
+            hide: true
+          }
+        : commentItem
+      );
+       
+    this.setState({
+      posts: this.state.posts.map((postItem) => 
+        postItem.id === postId 
+        ? {
+          ...postItem, 
+          commentLog: changedCommentLog 
+        }
+        : postItem)
+    })
+  }
+
   handleEnterPressForComment = (event, changedPostItem) => {
     if (event.key === "Enter"){
       let newComment = {
         id: this.state.posts.length+1,
         name: "me",
         comment: changedPostItem.commentString,
+        hide: false
       }
       this.setState({
         posts: this.state.posts.map((postItem) => postItem.id === changedPostItem.id ? 
@@ -228,7 +306,7 @@ class App extends React.Component {
     return (
       <div>
         <Header />
-        <div>{this.state.coolMessage}</div>
+        <hr />
         <NewPostInput 
           onKeyDown={this.handleEnterPress}
           urlString={this.state.urlString}
@@ -249,6 +327,7 @@ class App extends React.Component {
           onRightArrowButtonClick={this.handleRightArrowButtonClick}
           onLeftArrowButtonClick={this.handleLeftArrowButtonClick}
           onDoubleClick={this.handleDoubleClick}
+          onHideClickForComment={this.handleHideClickForComment}
         />
       </div>
     )

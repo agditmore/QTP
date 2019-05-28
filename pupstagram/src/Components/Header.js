@@ -1,9 +1,11 @@
 import React from 'react';
+import Instagram from './Images/Instagram.png'
 
 const Header = () => {
     return(
-        <div>
-            <h1>Welcome to Pupstagram!</h1>
+        <div id="header-div">
+            <img src={Instagram} alt="pupstagram logo" id="pupstagram-logo"/>
+            <h1>Pupstagram</h1>
         </div>
     )
 }

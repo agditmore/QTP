@@ -5,7 +5,7 @@ const CommentInput = (props) => {
 return(
     <div>
         <input 
-        className="text-box"
+        className="comment-text-box"
         type="text" 
         placeholder="Bork here..."
         value={props.postItem.commentString}

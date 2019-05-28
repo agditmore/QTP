@@ -4,36 +4,51 @@ import ShowOrHideCommentsButton from './ShowOrHideCommentsButton';
 import LikeButton from './LikeButton';
 import LeftArrowButton from './LeftArrowButton';
 import RightArrowButton from './RightArrowButton';
+import Wag from './Images/Wag.png'
 
 const PostDisplay = (props) => {
     return (props.posts.map((postItem) => {
         return(
             <div key={postItem.id}>
+                <div className="image-info-bar">
+                    <div className="poster">
+                        {postItem.poster}
+                    </div>
+                    <div className="location">
+                        {postItem.location}
+                    </div>
+                </div>
             <div className="arrows-and-image-container">
-                <div className="column">
+                <div>
                 <LeftArrowButton
                     postItem={postItem}
                     onLeftArrowButtonClick={props.onLeftArrowButtonClick}
                 />
                 </div>
-                <div className="column">
-                    <img 
-                        src={postItem.images[postItem.displayedImageIndex].image} 
-                        alt={postItem.images[0].alt} 
-                        onDoubleClick={(event) => props.onDoubleClick(event, postItem)}
-                        className="image-container">
-                    </img>
+                <div>
+                    <div className="main-image-div">
+                        <img 
+                            src={postItem.images[postItem.displayedImageIndex].image} 
+                            alt={postItem.images[0].alt} 
+                            onDoubleClick={(event) => props.onDoubleClick(event, postItem)}
+                            className="image-container">
+                        </img>
+                        {postItem.showWagImage === true 
+                            ?  <img src={Wag} alt="wag" className="wag-image" /> 
+                            : null
+                        }
+                    </div>
+                    
                 </div>
-                <div className="column">
+                <div>
                 <RightArrowButton
                     postItem={postItem}
                     onRightArrowButtonClick={props.onRightArrowButtonClick}
                 />
                 </div>
             </div>
-                <br />
                 <div>
-                <p>{postItem.caption}</p>
+                <div className="caption-container"><p>{postItem.caption}</p></div>
                     <div id="wags-and-comments">
                     <div id="wag-container" className="like-container">
                         <LikeButton 
@@ -42,7 +57,7 @@ const PostDisplay = (props) => {
                         />
                         <p padding-right="3px">{postItem.numberOfLikes} wags</p>
                     </div>
-                    <div id="comment-container" className="column">
+                    <div className="comment-container">
                     <div>
                         <ShowOrHideCommentsButton 
                             postItem={postItem}
@@ -55,6 +70,7 @@ const PostDisplay = (props) => {
                             postItem={postItem} 
                             onKeyDown={props.onKeyDown}
                             onChange={props.onChange}
+                            onHideClickForComment={props.onHideClickForComment}
                         /> : null
                         }
                     </div>

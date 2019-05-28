@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+}
+
+img {
+  max-height: 150px;
+  max-width: 150px;
+  margin: 10px;
+}
+
+.item-container {
+  display: flex;
+}
+
+.name-and-number {
+  display: flex;
+  flex-direction: column;
+}
+
+.number-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.number {
+  margin: 10px;
+}
+
+#shopping-cart-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: right;
+  text-align: flex-end;
+}
+
+#shopping-cart-image {
+  max-height: 20px;
+  max-width: 20px;
+}
+
+.shopping-cart-list-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.shopping-cart-list-column {
+  margin: 10px;
+  width: 100px;
+}

@@ -2,12 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -19,34 +13,17 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 body {
   text-align: center;
-  background-color:#d1e0e0;
-  color: #003300;
+  background-color:#fafafa;
   font-size: 16px;
 }
 
 h1 {
-  border-style: solid;
-  border-width: 2px;
-  border-color: #003300;
-  border-radius: 15px;
   margin: 40px;
-  background-color: #f0f5f5;
-  color: #003300;
+  background-color: white;
+  display: flex;
+  font-family: cursive;
 }
 
 .text-box {
@@ -56,41 +33,53 @@ h1 {
   margin-bottom: 5px;
 }
 
+.comment-text-box {
+  width: 330px;
+  height: 30px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
 .image-container {
   border-style: solid;
   border-width: 15px;
   border-color: white;
-  max-width: 500px;
+  max-width: 470px;
+  min-width: 400px;
   max-height: 500px;
+  z-index: 1;
 }
 
 #wag-container {
   border-style: solid;
-  background-color: #f0f5f5;
+  background-color: white;
   border-width: 1px;
   border-radius: 5px;
-  border-color: #003300;
-  color: #003300;
+  border-color: lightgray;
+  color: black;
   display: flex;
-  flex: 10%;
+  flex: 20%;
 }
 
-#comment-container {
+.comment-container {
   border-style: solid;
-  background-color: #f0f5f5;
+  background-color: white;
   border-width: 1px;
   border-radius: 5px;
-  border-color: #003300;
-  color: #003300;
+  border-color: lightgray;
   display: flex;
   flex: 70%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #wags-and-comments {
   column-count: 2;
   display: flex;
-  margin-right:200px;
-  margin-left: 200px;
+  width: 500px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 button {
@@ -100,7 +89,7 @@ button {
   border-radius: 5px;
   border: 1px solid gray;
   font-size: 14px;
-  color: #003300
+  color: black;
 }
 
 .arrows-and-image-container {
@@ -143,20 +132,119 @@ button {
 }
 
 .like-container {
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.wag-appear-and-fade {
-  width: 100px;
-  height: 100px;
-  transition: 0.5s;
-  opacity: 0;
-  visibility: hidden;
+.wag-image {
+  display: flex;
+  right: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  z-index: 0;
+  position: absolute;
+  left: 210px;
+  bottom: 320px;
 }
 
-.wag-appear-and-fade.show {
-  opacity: 1;
-  visibility: visible;
+#pupstagram-logo {
+  height: 80px;
+
+}
+
+#header-div{
+  display: flex;
+  column-count: 2;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: white;
+}
+
+.image-info-bar {
+  border-style: solid;
+  background-color: white;
+  border-width: 1px;
+  border-radius: 5px 5px 0px 0px;
+  border-color: lightgray;
+  border-bottom: none;
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  max-width: 500px;
+  flex-direction: column;
+  margin: 0 auto;
+  padding-top: 3px;
+}
+
+.poster {
+  display: flex;
+  font-weight: bold;
+  text-align: left;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.location {
+  display: flex;
+  text-align: left;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.caption-container {
+  border-style: solid;
+  background-color: white;
+  border-width: 1px;
+  border-radius: 0px 0px 5px 5px;
+  border-color: lightgray;
+  border-top: none;
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  max-width: 500px;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.main-image-div {
+  background-color: white;
+  position: relative;
+  width: 500px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+  border-top: none;
+  border-bottom: none;
+}
+
+.commenter-name {
+  font-weight: bold;
+  display: flex;
+}
+
+.comment {
+  display: flex;
+  padding-left: 7px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 350px;
+  min-width: 0;
+  overflow-x: scroll;
+}
+
+.comment-box {
+  display: flex;
+  column-count: 2;
+  flex-direction: row;
+  padding-bottom: 4px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.delete-comment-button {
+  max-height: 29px;
+
 }
