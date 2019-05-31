@@ -1,6 +1,7 @@
 import React from 'react';
 
 const SearchFields = (props) => {
+    
     return (
         <div className="sorting-buttons-container">
             <input 

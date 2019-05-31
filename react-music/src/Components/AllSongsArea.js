@@ -72,7 +72,6 @@ class AllSongsArea extends React.Component {
     }
 
     handleEnterPress = (e, searchType) => {
-        
         let searchedPlaylist = [];
         if (e.key === "Enter"){
             const keyword = e.target.value.trim().toUpperCase();
@@ -112,7 +111,7 @@ class AllSongsArea extends React.Component {
         }  
     }
 
-    handleSearchChange(e, searchType) {
+    handleSearchChange = (e, searchType) => {
         if (searchType === "year") {
             this.setState({yearSearchField: e.target.value})
         }
@@ -136,9 +135,15 @@ class AllSongsArea extends React.Component {
     render(){
         return(
             <div>
-                <h2>All Songs</h2>
+                <h2>Library</h2>
                 <SortingButtons
                     orderAllSongsList={this.orderAllSongsList}
+                    compareYearAscending={this.compareYearAscending}
+                    compareYearDescending={this.compareYearDescending}
+                    compareArtistAZ={this.compareArtistAZ}
+                    compareArtistZA={this.compareArtistZA}
+                    compareTitleAZ={this.compareTitleAZ}
+                    compareTitleZA={this.compareTitleZA}
                 />
                 <SearchFields
                     handleEnterPress={this.handleEnterPress}

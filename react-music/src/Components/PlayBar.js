@@ -8,7 +8,6 @@ class PlayBar extends React.Component {
         this.state={
             shuffledPlaylist: [],
             shuffle: false,
-            showPlaylist: true,
         };
     };
 

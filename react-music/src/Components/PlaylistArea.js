@@ -1,43 +1,69 @@
 import React from 'react';
 import PlaylistSongRow from './PlaylistSongRow';
 
-const PlaylistArea = (props) => {
-    const moveSongInPlaylist = (movedSong, direction) => {
-        const movedSongOriginalIndex = props.playlist.indexOf(movedSong);
-        let newPlaylist = props.playlist;
+class PlaylistArea extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showPlaylist: true,
+        };
+    }
+
+    moveSongInPlaylist = (movedSong, direction) => {
+        const movedSongOriginalIndex = this.props.playlist.indexOf(movedSong);
+        let newPlaylist = this.props.playlist;
         if (direction==="down" && movedSongOriginalIndex < newPlaylist.length-1) {
-          const secondSong = props.playlist[movedSongOriginalIndex+1];
+          const secondSong = this.props.playlist[movedSongOriginalIndex+1];
           newPlaylist[movedSongOriginalIndex] = secondSong;
           newPlaylist[movedSongOriginalIndex+1] = movedSong;
         }
         else if (direction==="up" && movedSongOriginalIndex > 0) {
-          const secondSong = props.playlist[movedSongOriginalIndex-1];
+          const secondSong = this.props.playlist[movedSongOriginalIndex-1];
           newPlaylist[movedSongOriginalIndex] = secondSong;
           newPlaylist[movedSongOriginalIndex-1] = movedSong;
         }
-        props.updatePlaylist(newPlaylist)
+        this.props.updatePlaylist(newPlaylist)
     }
 
-    if (props.playlist.length>0){
-        return(
-            <div>
-                <h2>Playlist</h2>
-                {props.playlist.map((song) => 
-                    <PlaylistSongRow
-                    song={song}
-                    playSong={props.playSong}
-                    removeFromPlaylist={props.removeFromPlaylist}
-                    currentSong={props.currentSong}
-                    moveSongInPlaylist={moveSongInPlaylist}
-                    />
-                )}
-            </div>
-        )
+    showOrHidePlaylist = () => {
+        this.setState({
+            showPlaylist: !this.state.showPlaylist,
+        })
     }
-    else {
-        return(
-            <div></div>
-        )
+
+    render() 
+        {if (this.props.playlist.length>0 && this.state.showPlaylist){
+            return(
+                <div>
+                    <div className="playlist-header">
+                        <h2>Playlist</h2>
+                        <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.state.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
+                    </div>
+                    {this.props.playlist.map((song) => 
+                        <PlaylistSongRow
+                        song={song}
+                        playSong={this.props.playSong}
+                        removeFromPlaylist={this.props.removeFromPlaylist}
+                        currentSong={this.props.currentSong}
+                        moveSongInPlaylist={this.moveSongInPlaylist}
+                        />
+                    )}
+                </div>
+            )
+        }
+        else if (this.props.playlist.length>0 && !this.state.showPlaylist){
+            return(
+                <div className="playlist-header">
+                    <h2>Playlist</h2>
+                    <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.state.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
+                </div>
+            )
+        }
+        else {
+            return(
+                <div></div>
+            )
+        }
     }
 }
 

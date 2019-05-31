@@ -7,6 +7,10 @@
   align-items: center;
   text-align: center;
   margin-left: 20px;
+  border-top: solid;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: gray;
 }
 
 .highlighted-song-div {
@@ -18,7 +22,7 @@
 }
 
 .all-songs-column {
-  width: 350px
+  width: 350px;
 }
 
 body {
@@ -37,12 +41,13 @@ button {
   vertical-align: middle;
   margin-top: 2px;
   margin-right: 2px;
+  margin-left: 2px;
 }
 
 img {
   align-items: center;
   vertical-align: auto;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .rotated-arrow {
@@ -81,4 +86,13 @@ h2 {
   margin-right: 10px;
   border-radius: 5px;
   width: 200px;
+}
+
+.playlist-header {
+  display: flex;
+}
+
+.playlist-button {
+  margin-left: 15px;
+  margin-top: 23px;
 }
