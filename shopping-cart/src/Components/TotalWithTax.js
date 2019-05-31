@@ -1,16 +1,12 @@
 import React from 'react';
 
 const TotalWithTax = (props) => {
-    let finalTotalNoTax = 0;
-    for (let i=0; i<props.itemsForSale.length; i++){
-        finalTotalNoTax = finalTotalNoTax + props.itemsForSale[i].numberInCart*props.itemsForSale[i].price
-    }
-    let salesTax = finalTotalNoTax*0.098;
-    let finalTotalWithTax=finalTotalNoTax+salesTax
+    let salesTax = props.totalNoTax*0.098;
+    let finalTotalWithTax=props.totalNoTax+salesTax
     return(
         <div>
             <div>
-                Total (without tax): {finalTotalNoTax.toFixed(2)}
+                Total (without tax): {props.totalNoTax.toFixed(2)}
             </div>
             <div>
                 Sales tax (9.8%): {salesTax.toFixed(2)}

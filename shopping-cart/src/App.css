@@ -10,6 +10,11 @@ img {
 
 .item-container {
   display: flex;
+  border: solid;
+  border-width: 1px;
+  border-color: gainsboro;
+  width: 325px;
+  
 }
 
 .name-and-number {
@@ -46,4 +51,32 @@ img {
 .shopping-cart-list-column {
   margin: 10px;
   width: 100px;
+}
+
+.shopping-cart-list-top {
+  margin: 10px;
+  width: 100px;
+  font-weight: bold;
+}
+
+.image {
+  max-width: 180px;
+  height: auto;
+}
+
+#main-page {
+  display: flex;
+  column-count: 3;
+  max-width: 1300px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#shopping-cart-statement {
+  margin: 10px;
+}
+
+.description-div {
+  font-style: italic;
+  font-size: 10pt;
 }

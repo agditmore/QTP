@@ -6,7 +6,7 @@ const ShoppingCartIcon = (props) =>
     return(
         <div id="shopping-cart-container">
             <button onClick={props.handleShoppingCartIcon}><img src={ShoppingCart} alt="Shopping Cart" id="shopping-cart-image" /></button>
-            <p>{props.numberOfItemsInShoppingCart}</p>
+            <p id="shopping-cart-statement">{props.numberOfItemsInShoppingCart} items in your shopping cart </p>
         </div>
     )
 }
