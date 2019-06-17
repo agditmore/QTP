@@ -16,8 +16,7 @@ const PlaylistSongRow = (props) => {
             <button onClick={() => props.moveSongInPlaylist(props.song, "down")}><img src={Arrow} className="arrow" alt="down arrow" /></button>
             <button onClick={() => props.removeFromPlaylist(props.song)}>-</button>
         </div>
-    )
-    
+    ) 
 }
 
 export default PlaylistSongRow;

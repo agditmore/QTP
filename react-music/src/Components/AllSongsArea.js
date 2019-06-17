@@ -1,21 +1,16 @@
 import React from 'react';
-import AllSongsList from './../SongData';
 import AllSongsRow from './AllSongsRow';
 import SortingButtons from './SortingButtons';
 import SearchFields from './SearchFields';
+import { connect } from 'react-redux';
+import { 
+    setDisplayedPlaylist, 
+    changeYearSearchField, 
+    changeArtistSearchField, 
+    changeTitleSearchField } from './../redux/actions';
 
 
 class AllSongsArea extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            AllSongsList: AllSongsList.songs,
-            displayedPlaylist: AllSongsList.songs,
-            yearSearchField: '',
-            titleSearchField: '',
-            artistSearchField: '',
-        };
-    }
 
     customSort = (originalArray, comparator) => {
         const array = [...originalArray]
@@ -32,7 +27,7 @@ class AllSongsArea extends React.Component {
     }
 
     orderAllSongsList = (algorithm) => {
-        this.setState({displayedPlaylist: this.customSort(this.state.AllSongsList, algorithm)})
+        this.props.setDisplayedPlaylist(this.customSort(this.props.AllSongsList, algorithm))
     }
 
     compareYearAscending = (a, b) => {
@@ -76,10 +71,10 @@ class AllSongsArea extends React.Component {
         if (e.key === "Enter"){
             const keyword = e.target.value.trim().toUpperCase();
             if (searchType === "year" && keyword.length > 0) {
-                searchedPlaylist = this.state.displayedPlaylist.filter((song) => song.year === e.target.value);
+                searchedPlaylist = this.props.displayedPlaylist.filter((song) => song.year === e.target.value);
             }
             else if (searchType === "title" && keyword.length > 0) {
-                searchedPlaylist = this.state.displayedPlaylist.filter((song) => 
+                searchedPlaylist = this.props.displayedPlaylist.filter((song) => 
                     {let sameLetterCount = 0;
                     for (let i = 0; i < keyword.length; i++){
                         if (keyword.charAt(i) === song.title.toUpperCase().charAt(i)){
@@ -91,7 +86,7 @@ class AllSongsArea extends React.Component {
                     });
             }
             else if (searchType === "artist" && keyword.length > 0) {
-                searchedPlaylist = this.state.displayedPlaylist.filter((song) => 
+                searchedPlaylist = this.props.displayedPlaylist.filter((song) => 
                     {let sameLetterCount = 0;
                     for (let i = 0; i < keyword.length; i++){
                         if (keyword.charAt(i) === song.artist.toUpperCase().charAt(i)){
@@ -105,37 +100,34 @@ class AllSongsArea extends React.Component {
             else {
                 searchedPlaylist = [];
             }
-            this.setState({
-                displayedPlaylist: searchedPlaylist,
-            })
+            this.props.setDisplayedPlaylist(searchedPlaylist)
         }  
     }
 
     handleSearchChange = (e, searchType) => {
         if (searchType === "year") {
-            this.setState({yearSearchField: e.target.value})
+            this.props.changeYearSearchField(e.target.value)
         }
         else if (searchType === "title") {
-            this.setState({titleSearchField: e.target.value})
+            this.props.changeTitleSearchField(e.target.value)
         }
         else if  (searchType === "artist") {
-            this.setState({artistSearchField: e.target.value})
+            this.props.changeArtistSearchField(e.target.value)
         }
     }
 
     clearSearch = () => {
-        this.setState({
-            displayedPlaylist: this.state.AllSongsList,
-            yearSearchField: '',
-            titleSearchField: '',
-            artistSearchField: '',
-        })
+        this.props.setDisplayedPlaylist(this.props.AllSongsList)
+        this.props.changeYearSearchField('')
+        this.props.changeTitleSearchField('')
+        this.props.changeArtistSearchField('')
     }
         
     render(){
         return(
             <div>
                 <h2>Library</h2>
+                {/* Carefully consider which of these props REALLY need to be passed down */}
                 <SortingButtons
                     orderAllSongsList={this.orderAllSongsList}
                     compareYearAscending={this.compareYearAscending}
@@ -148,12 +140,12 @@ class AllSongsArea extends React.Component {
                 <SearchFields
                     handleEnterPress={this.handleEnterPress}
                     handleSearchChange={this.handleSearchChange}
-                    yearSearchField={this.state.yearSearchField}
-                    artistSearchField={this.state.artistSearchField}
-                    titleSearchField={this.state.titleSearchField}
+                    yearSearchField={this.props.yearSearchField}
+                    artistSearchField={this.props.artistSearchField}
+                    titleSearchField={this.props.titleSearchField}
                     clearSearch={this.clearSearch}
                 />
-            {this.state.displayedPlaylist.length > 0 ? this.state.displayedPlaylist.map((song) => 
+            {this.props.displayedPlaylist.length > 0 ? this.props.displayedPlaylist.map((song) => 
                 <AllSongsRow
                     song={song}
                     addToPlaylist={this.props.addToPlaylist}
@@ -164,7 +156,24 @@ class AllSongsArea extends React.Component {
             </div>
         )
     }
-    
 }
 
-export default AllSongsArea;
+const mapStateToProps = (state) => {
+    return {
+        AllSongsList: state.AllSongsList,
+        displayedPlaylist: state.displayedPlaylist,
+        yearSearchField: state.yearSearchField,
+        titleSearchField: state.titleSearchField,
+        artistSearchField: state.artistSearchField,
+        playlist: state.playlist
+    }
+}
+
+const mapDispatchToProps = {
+    setDisplayedPlaylist,
+    changeYearSearchField,
+    changeArtistSearchField,
+    changeTitleSearchField,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllSongsArea);

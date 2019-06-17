@@ -1,23 +1,16 @@
 import React from 'react';
 import Next from './Images/Next.png';
+import { connect } from 'react-redux';
+import { toggleShuffleFlag, changeShuffledPlaylist} from './../redux/actions';
 
 class PlayBar extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state={
-            shuffledPlaylist: [],
-            shuffle: false,
-        };
-    };
-
     changeSong = (direction) => {
         let currentPlaylist;
-        if (!this.state.shuffle){
+        if (!this.props.shuffle){
             currentPlaylist = this.props.playlist;
         }
         else {
-            currentPlaylist = this.state.shuffledPlaylist;
+            currentPlaylist = this.props.shuffledPlaylist;
         }
         const currentIndex = currentPlaylist.indexOf(this.props.currentSong);
         if (direction === "prev") {
@@ -39,10 +32,13 @@ class PlayBar extends React.Component {
             [shuffledPlaylist[i], shuffledPlaylist[j]] = [shuffledPlaylist[j], shuffledPlaylist[i]]
         }
 
-        this.setState({
-            shuffledPlaylist: shuffledPlaylist,
-            shuffle: !this.state.shuffle,
-        })
+        changeShuffledPlaylist(shuffledPlaylist)
+        toggleShuffleFlag(this.props.shuffle)
+
+        // this.setState({
+        //     shuffledPlaylist: shuffledPlaylist,
+        //     shuffle: !this.props.shuffle,
+        // })
         this.props.playSong(shuffledPlaylist[0])
     }
 
@@ -78,4 +74,18 @@ class PlayBar extends React.Component {
     }
 }
 
-export default PlayBar;
+const mapStateToProps = (state) => {
+    return {
+        shuffledPlaylist: state.shuffledPlaylist,
+        shuffle: state.shuffle,
+        currentSong: state.currentSong,
+        playlist: state.playlist
+    }
+}
+
+const mapDispatchToProps = {
+    changeShuffledPlaylist,
+    toggleShuffleFlag
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayBar);

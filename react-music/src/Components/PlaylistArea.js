@@ -1,17 +1,13 @@
 import React from 'react';
 import PlaylistSongRow from './PlaylistSongRow';
+import { connect } from 'react-redux';
+import { toggleShowPlaylistFlag, setPlaylist } from './../redux/actions';
 
 class PlaylistArea extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            showPlaylist: true,
-        };
-    }
-
     moveSongInPlaylist = (movedSong, direction) => {
         const movedSongOriginalIndex = this.props.playlist.indexOf(movedSong);
-        let newPlaylist = this.props.playlist;
+        let newPlaylist = [];
+        this.props.playlist.map((song) => newPlaylist.push(song));
         if (direction==="down" && movedSongOriginalIndex < newPlaylist.length-1) {
           const secondSong = this.props.playlist[movedSongOriginalIndex+1];
           newPlaylist[movedSongOriginalIndex] = secondSong;
@@ -22,22 +18,19 @@ class PlaylistArea extends React.Component {
           newPlaylist[movedSongOriginalIndex] = secondSong;
           newPlaylist[movedSongOriginalIndex-1] = movedSong;
         }
-        this.props.updatePlaylist(newPlaylist)
+        this.props.setPlaylist(newPlaylist)
     }
 
     showOrHidePlaylist = () => {
-        this.setState({
-            showPlaylist: !this.state.showPlaylist,
-        })
+        this.props.toggleShowPlaylistFlag(this.props.showPlaylist)
     }
 
-    render() 
-        {if (this.props.playlist.length>0 && this.state.showPlaylist){
-            return(
+    render() {
+        return(this.props.playlist.length>0 && this.props.showPlaylist ? (
                 <div>
                     <div className="playlist-header">
                         <h2>Playlist</h2>
-                        <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.state.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
+                        <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.props.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
                     </div>
                     {this.props.playlist.map((song) => 
                         <PlaylistSongRow
@@ -49,22 +42,30 @@ class PlaylistArea extends React.Component {
                         />
                     )}
                 </div>
-            )
-        }
-        else if (this.props.playlist.length>0 && !this.state.showPlaylist){
-            return(
-                <div className="playlist-header">
-                    <h2>Playlist</h2>
-                    <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.state.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
-                </div>
-            )
-        }
-        else {
-            return(
-                <div></div>
-            )
-        }
+        )
+        : this.props.playlist.length>0 && !this.props.showPlaylist ? (
+            <div className="playlist-header">
+                <h2>Playlist</h2>
+                <button className="playlist-button" onClick={this.showOrHidePlaylist}>{this.props.showPlaylist ? "Hide Playlist" : "Show Playlist"}</button>
+            </div>
+        )
+        : 
+        (<div></div>)
+        )
     }
 }
 
-export default PlaylistArea;
+const mapStateToProps = (state) => {
+    return {
+        showPlaylist: state.showPlaylist,
+        playlist: state.playlist,
+        currentSong: state.currentSong
+    }
+}
+
+const mapDispatchToProps = {
+    toggleShowPlaylistFlag,
+    setPlaylist
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistArea);
