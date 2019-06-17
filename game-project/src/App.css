@@ -1,0 +1,33 @@
+.App {
+  text-align: center;
+}
+
+.gameboard-blocks-container {
+  display: grid;
+  grid-template-columns: 75px 75px 75px 75px 75px 75px 75px 75px 75px 75px;
+  margin: 10px;
+}
+
+.gameboard-block {
+  height: 75px;
+  width: 75px;
+  border: solid;
+  border-width: 1px;
+  background-color: lightblue;
+}
+
+img {
+  width: 75px;
+}
+
+.entire-scoreboard {
+  display: flex;
+}
+
+.scoreboard-card {
+  margin: 10px;
+  padding: 5px;
+  border: dotted;
+  border-width: 1px;
+  border-color: lightblue;
+}
