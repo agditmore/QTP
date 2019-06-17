@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+
+img {
+  height: 150px;
+  width: 150px;
+  padding: 5px;
+}
+
+#food-selector-container {
+  display: flex;
+  justify-content: center;
+}
+
+.add-to-cart-container {
+  display: flex;
+  justify-content: center;
+}
+
+.add-to-cart-input {
+  height: 25px;
+  width: 40px;
+  margin: 15px 5px 0px 5px;
+}
+
+.add-to-cart-button {
+  height: 25px;
+  margin-top: 17px;
+  margin-left: 5px;
+}
+
+.cart-item-container {
+  display: flex;
+  column-count: 2;
+  
+}
+
+.item-name-column {
+  width: 200px;
+}
+
+.item-number-column {
+  width: 200px;
+}
+
+.cart-page-container {
+  margin-left: 20px;
+}
+
+#page-bottom {
+  margin-bottom: 30px;
+}
+
