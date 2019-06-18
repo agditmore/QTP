@@ -25,19 +25,20 @@ class GameBoard extends React.Component {
 
     updateGameBoard = () => {
         const updatedGameBoard = [];
-        const updatedGameRow = [];
+        let updatedGameRow = [];
+        // eslint-disable-next-line array-callback-return
         this.props.gameBoard.map((gameRow) => 
-            this.state.playerRow === this.props.gameBoard.indexOf(gameRow)
-                ? (gameRow.map((gameCard) => 
-                        this.state.playerColumn === gameRow.indexOf(gameCard)
-                            ? updatedGameRow.push({...gameCard, contains: "playerShip"})
-                            : updatedGameRow.push(gameCard)
-                    ),
-                    updatedGameBoard.push(updatedGameRow)
+            {(gameRow.map((gameCard) => 
+                this.state.playerRow === this.props.gameBoard.indexOf(gameRow) && this.state.playerColumn === gameRow.indexOf(gameCard) ? 
+                    updatedGameRow.push({...gameCard, contains: "playerShip"})
+                    : gameCard.contains === "playerShip" ? 
+                        updatedGameRow.push({...gameCard, contains: "sea"})
+                        : updatedGameRow.push(gameCard)
+                    )
                 )
-                : updatedGameBoard.push(gameRow)
+            updatedGameBoard.push(updatedGameRow)
+            updatedGameRow = [];}
         )
-        
         return updatedGameBoard;
     }
 
@@ -66,12 +67,12 @@ class GameBoard extends React.Component {
             else if (event.key === "ArrowUp" || "ArrowDown" || "ArrowLeft" || "ArrowRight"){
                 alert("Whoops! You almost fell off the board!")
             }
+            this.setState({playerMoveCount: this.state.playerMoveCount+1})
         }
-        this.setState({playerMoveCount: this.state.playerMoveCount+1})
+        
         this.props.updatePlayerLocation(this.updateGameBoard())
 
-        if (this.state.playerMoveCount >= 2){
-            alert("Your turn is up!");
+        if (this.state.playerMoveCount > 0 && this.state.playerMoveCount%2 === 0){
             this.props.updatePlayerTurn(false);
         }
     }
