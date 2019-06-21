@@ -1,51 +1,72 @@
 import React from 'react';
-import Ship from './../images/Ship.jpeg';
-import PirateShip from './../images/PirateShip.jpeg';
-import ClosedTreasureChest from './../images/ClosedTreasureChest.png';
+import ModalContainer from './ModalContainer';
+import GameCard from './GameCard';
+import HowToPlay from './HowToPlay';
+import { connect } from 'react-redux';
 
-const DisplayGameBoard = (props) => {
-    return(
-        <div className="gameboard-blocks-container" onKeyDown={props.handleShipMove} tabIndex="0">
-            {props.gameBoard.map((gameRow) => 
-                gameRow.map((gameSquare) => 
-                    {switch (gameSquare.contains) {
-                        case "sea":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    sea!
-                                </div>);
-                        case "playerShip":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    <img src={Ship} alt="Player's Ship" />
-                                </div>);
-                        case "computerShip":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    <img src={PirateShip} alt="Computers Ship" />
-                                </div>);
-                        case "treasureChestTreasure":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    <img src={ClosedTreasureChest} alt="Treasure Chest" />
-                                </div>);
-                        case "treasureChestKraken":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    <img src={ClosedTreasureChest} alt="Treasure Chest" />
-                                </div>);
-                        case "whirlpool":
-                            return (
-                                <div className="gameboard-block" id={gameSquare.id}>
-                                    Whirlpool!
-                                </div>);
-                        default:
-                            return (<div></div>);
-                    }}
-                )
-            )}
-        </div>
-    )
+class DisplayGameBoard extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+
+        }
+    }
+
+    levelClassName = "level-"+this.props.playerLevel
+    
+    render() {
+        return(
+            <div className="entire-display-game-container">
+            <ModalContainer
+                krakenTime={this.props.krakenTime}
+                challengeQuestions={this.props.challengeQuestions}
+                challengeQuestionNumber={this.props.challengeQuestionNumber}
+                handleKrakenPlayer={this.props.handleKrakenPlayer}
+                alert={this.props.alert}
+                resetAlert={this.props.resetAlert}
+                resetAlertAndCheckTurn={this.props.resetAlertAndCheckTurn}
+                playerLives={this.props.playerLives}
+                computerLives={this.props.computerLives}
+                playerScore={this.props.playerScore}
+                computerScore={this.props.computerScore}
+                handleNextLevel={this.props.handleNextLevel}
+                handleSameLevel={this.props.handleSameLevel}
+            />
+            <div className="game-board-container" onKeyDown={this.props.handleShipMove} tabIndex="0">
+                {this.props.gameBoard.map((gameRow) => 
+                    <div className="game-row-container">
+                    {gameRow.map((gameSquare) => 
+                        <GameCard 
+                            gameSquare={gameSquare}
+                            characterImage={this.props.characterImage}
+                        />
+                    )}
+                    </div>
+                )}
+            </div>
+            {this.levelClassName === "level-1" ?
+            <HowToPlay />
+            :null
+            }
+            </div>
+        )
+    }
+    }
+
+const mapStateToProps = (state) => {
+    return {
+        // playerTurn: state.playerTurn,
+        gameBoard: state.gameBoard,
+        playerScore: state.playerScore,
+        playerLives: state.playerLives,
+        computerScore: state.computerScore,
+        computerLives: state.computerLives,
+        // screen: state.screen,
+        playerLevel: state.playerLevel,
+        challengeQuestions: state.challengeQuestions,
+        characterImage: state.characterImage
+          
+    }
 }
 
-export default DisplayGameBoard;
+export default connect(mapStateToProps)(DisplayGameBoard);

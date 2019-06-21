@@ -1,13 +1,12 @@
 import React from 'react';
-import Ship from './../images/Ship.jpeg';
-import PirateShip from './../images/PirateShip.jpeg';
+import PirateShip from './../images/Ships/PirateShip.png';
 import { connect } from 'react-redux';
 
 const ScoreBoard = (props) => {
     return(
         <div className="entire-scoreboard">
         <div className="scoreboard-card">
-            <img src={Ship} alt="Player's Ship" />
+            <img src={props.characterImage} alt="Player's Ship" />
             <h4>{props.characterName} Ship</h4>
             <div>{props.playerScore} treasures</div>
             <div>{props.playerLives} shipwrecks before sinking </div>
@@ -29,6 +28,7 @@ const mapStateToProps = (state) => {
         computerScore: state.computerScore,
         computerLives: state.computerLives,
         characterName: state.characterName,
+        characterImage: state.characterImage,
     }
 }
 

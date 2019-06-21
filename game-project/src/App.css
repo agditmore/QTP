@@ -2,26 +2,35 @@
   text-align: center;
 }
 
-.gameboard-blocks-container {
-  display: grid;
-  grid-template-columns: 75px 75px 75px 75px 75px 75px 75px 75px 75px 75px;
+.game-board-container {
+  display: flex;
+  flex-direction: column;
   margin: 10px;
 }
 
+.game-row-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .gameboard-block {
-  height: 75px;
-  width: 75px;
+  width: 50px;
+  height: 50px;
   border: solid;
+  border-color: white;
   border-width: 1px;
   background-color: lightblue;
 }
 
 img {
-  width: 75px;
+  max-width: 50px;
+  display: block;
+  margin: auto;
 }
 
 .entire-scoreboard {
   display: flex;
+  justify-content: center;
 }
 
 .scoreboard-card {
@@ -30,4 +39,60 @@ img {
   border: dotted;
   border-width: 1px;
   border-color: lightblue;
+  border-radius: 10px;
+}
+.entire-display-game-container {
+  display: flex;
+}
+
+.how-to-play {
+  border: dotted;
+  border-width: 1px;
+  border-color: lightblue;
+  border-radius: 10px;
+  height: 100%;
+  margin: 10px 10px 0px 0px;
+  padding: 10px 10px 10px 10px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.welcome-page {
+  margin: 10px;
+}
+
+.character-choice-container {
+  margin: 10px;
+}
+
+.boat-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 75px;
+  text-align: center;
+  margin: 15px;
+}
+
+.boat-input {
+  display: flex;
+  justify-content: space-around;
+}
+
+.boats-container {
+display: flex;
+flex-direction: row;
+text-align: center;
+}
+
+.boat-input-container {
+text-align: center;
+}
+
+.character-choice-card {
+  display: flex;
+  height: 50px;
+}
+
+.trivia-answer-container {
+  display: grid;
 }
