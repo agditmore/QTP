@@ -28,6 +28,7 @@ class GameBoard extends React.Component {
             krakenTime: false, 
             challengeQuestionNumber: 0,
             gameEndConditions: false,
+            computerMoveCount: 0,
         }
     }
 
@@ -64,10 +65,9 @@ class GameBoard extends React.Component {
             }
             newGameBoard.push(newRow)
         }
-        this.props.updateGameBoard(newGameBoard);
         newGameBoard[0][this.state.maxColumns].contains = "computerShip";
         newGameBoard[this.state.maxRows][0].contains = "playerShip";
-        this.props.updateGameBoard(newGameBoard);
+        this.setState({playerRow: this.state.maxRows, playerColumn: 0, enemyRow: 0, enemyColumn: this.state.maxColumns })
         for (let numberWhirlpools=0; numberWhirlpools<this.state.maxWhirlpools; numberWhirlpools++){
             const [newRow, newColumn] = this.getRandomLocation(newGameBoard);
             newGameBoard[newRow][newColumn].contains = "whirlpool";
@@ -124,43 +124,60 @@ class GameBoard extends React.Component {
         }
     }
 
-    handleCollision = (ship) => {
-        if (ship === "playerShip"){
-            if (this.state.playerDirection === "up" && this.state.enemyRow-3>=0){this.setState({ enemyRow: this.state.enemyRow-3 })}
-            else if (this.state.playerDirection === "up" && this.state.enemyRow===0){this.setState({ enemyRow: 0, playerRow: 1 })}
-            else if (this.state.playerDirection === "up"){this.setState({ enemyRow: 0 })}
-            
-            if (this.state.playerDirection === "down" && this.state.enemyRow+3<=this.state.maxRows){this.setState({ enemyRow: this.state.enemyRow+3 })}
-            else if (this.state.playerDirection === "down" && this.state.enemyRow===this.state.maxRows){this.setState({ enemyRow: this.state.maxRows, playerRow: this.state.maxRows-1 })}
-            else if (this.state.playerDirection === "down"){this.setState({ enemyRow: this.state.maxRows })}
-            
-            if (this.state.playerDirection === "left" && this.state.enemyColumn-3>=0){this.setState({ enemyColumn: this.state.enemyColumn-3})}
-            else if (this.state.playerDirection === "left" && this.state.enemyRow===0){this.setState({ enemyColumn: 0, playerColumn: 1 })}
-            else if (this.state.playerDirection === "left"){this.setState({ enemyColumn: 0 })}
-            
-            if (this.state.playerDirection === "right" && this.state.enemyColumn+3<=this.state.maxColumns){this.setState({ enemyColumn: this.state.enemyColumn+3})}
-            else if (this.state.playerDirection === "right" && this.state.enemyColumn===this.state.maxColumns){this.setState({ enemyColumn: this.state.maxColumns, playerColumn: this.state.maxColumns-1 })}
-            else if (this.state.playerDirection === "right"){this.setState({ enemyColumn: this.state.maxColumns })}
+    determineCollision = (direction, hitShipLocation, aggressorLocation) => {
+        let boundary;
+        if (direction === "down"){
+            boundary = this.state.maxRows;
+        }
+        else if (direction === "right"){
+            boundary = this.state.maxColumns;
+        }
+        if (direction === "up" || direction === "left"){
+            if (hitShipLocation-3>=0){
+                return({hitShipLocation: hitShipLocation-3, aggressorLocation})
+            }
+            else if (hitShipLocation===0){
+                return ({hitShipLocation: 0, aggressorLocation: 1})
+            }
+            else {
+                return({hitShipLocation: 0, aggressorLocation})
+            }
+        }
+        else if (direction === "down" || direction === "right"){
+            if (hitShipLocation+3<=boundary){
+                return ({hitShipLocation: hitShipLocation+3, aggressorLocation})
+            }
+            else if (hitShipLocation===boundary){
+                return({hitShipLocation: boundary, aggressorLocation: boundary-1})
+            }
+            else {
+                return({hitShipLocation: boundary, aggressorLocation})
+            }
+        }
+    }
 
+    handleCollision = (ship) => {
+        let updatedLocations;
+        if (ship === "playerShip"){
+            if (this.state.playerDirection === "up" || this.state.playerDirection === "down"){
+                updatedLocations = this.determineCollision(this.state.playerDirection, this.state.enemyRow, this.state.playerRow)
+                this.setState({enemyRow: updatedLocations.hitShipLocation, playerRow: updatedLocations.aggressorLocation})
+            }   
+            else {
+                updatedLocations = this.determineCollision(this.state.playerDirection, this.state.enemyColumn, this.state.playerColumn)
+                this.setState({enemyColumn: updatedLocations.hitShipLocation, playerColumn: updatedLocations.aggressorLocation})
+            }
             this.playerCollisionTimeout = setTimeout(()=>this.props.updateGameBoard(this.updateComputerPositionOnGameBoard()), 100)
         }
         else if (ship === "computerShip"){
-            if (this.state.enemyDirection === "up" && this.state.playerRow-3>=0){this.setState({ playerRow: this.state.playerRow-3 })}
-            else if (this.state.enemyDirection === "up" && this.state.playerRow===0){this.setState({ playerRow: 0, enemyRow: 1 })}
-            else if (this.state.enemyDirection === "up"){this.setState({ playerRow: 0 })}
-            
-            if (this.state.enemyDirection === "down" && this.state.playerRow+3<=this.state.maxRows){this.setState({ playerRow: this.state.playerRow+3 })}
-            else if (this.state.enemyDirection === "down" && this.state.playerRow===this.state.maxRows){this.setState({ playerRow: this.state.maxRows, enemyRow: this.state.maxRows-1 })}
-            else if (this.state.enemyDirection === "down"){this.setState({ playerRow: this.state.maxRows })}
-            
-            if (this.state.enemyDirection === "left" && this.state.playerColumn-3>=0){this.setState({ playerColumn: this.state.playerColumn-3})}
-            else if(this.state.enemyDirection === "left" && this.state.playerColumn===0){this.setState({ playerColumn: 0, enemyColumn: 1 })}
-            else if (this.state.enemyDirection === "left"){this.setState({ playerColumn: 0 })}
-            
-            if (this.state.enemyDirection === "right" && this.state.playerColumn+3<=this.state.maxColumns){this.setState({ playerColumn: this.state.playerColumn+3})}
-            else if (this.state.enemyDirection === "right" && this.state.playerColumn===this.state.maxColumns){this.setState({ playerColumn: this.state.maxColumns, enemyColumn: this.state.maxColumns-1 })}
-            else if (this.state.enemyDirection === "right"){this.setState({ playerColumn: this.state.maxColumns })}
-
+            if (this.state.enemyDirection === "up" || this.state.enemyDirection === "down"){
+                updatedLocations = this.determineCollision(this.state.enemyDirection, this.state.playerRow, this.state.enemyRow)
+                this.setState({playerRow: updatedLocations.hitShipLocation, enemyRow: updatedLocations.aggressorLocation})
+            }
+            else{
+                updatedLocations = this.determineCollision(this.state.enemyDirection, this.state.playerColumn, this.state.enemyColumn)
+                this.setState({playerColumn: updatedLocations.hitShipLocation, enemyColumn: updatedLocations.aggressorLocation})
+            }
             this.computerCollisionTimeout = setTimeout(()=>this.props.updateGameBoard(this.updatePlayerPositionOnGameBoard()), 100)
         }
     }
@@ -174,7 +191,6 @@ class GameBoard extends React.Component {
             this.props.decreaseComputerLives();
             this.setState({alert: "computerKrakenFailure"})
             this.checkGameEnd();
-            
         }
     }
 
@@ -210,6 +226,7 @@ class GameBoard extends React.Component {
             numberOfTreasureChests: 0, 
             playerMoveCount: 0,
             treasureLocations: [],
+            gameEndConditions: false,
         })
         this.props.resetLives({playerLives: 3, computerLives: 3});
         this.props.resetScores();
@@ -230,7 +247,10 @@ class GameBoard extends React.Component {
             maxWhirlpools: Math.ceil(this.state.maxWhirlpools*1.5),
             maxTreasures: oddTreasureTest,
             maxKraken: Math.ceil(this.state.maxKraken*1.5),
+            numberOfTreasureChests: 0, 
             playerMoveCount: 0,
+            treasureLocations: [],
+            gameEndConditions: false,
         })
         this.props.resetScores();
         this.newGameGenerationTimeout = setTimeout(this.generateGameBoard, 200);
@@ -256,7 +276,7 @@ class GameBoard extends React.Component {
                             break;
                         case "treasureChestTreasure":
                             updatedGameRow.push({...gameCard, contains: ship});
-                            this.treasureTimeout = setTimeout(()=>this.handleTreasure(ship), 150);
+                            this.handleTreasure(ship);
                             this.setState({numberOfTreasureChests: this.state.numberOfTreasureChests-1});
                             break;
                         case "treasureChestKraken":
@@ -283,6 +303,7 @@ class GameBoard extends React.Component {
             updatedGameRow = [];}
         )
         this.gameEndTimeout2 = setTimeout(this.checkGameEnd, 500)
+        this.checkTurn();
         return updatedGameBoard;
     }
 
@@ -364,18 +385,18 @@ class GameBoard extends React.Component {
         const closestTreasureLocation = this.state.treasureLocations[treasureDistance.indexOf(minDistance)]
         closestTreasureLocation.row === this.state.enemyRow ?
             closestTreasureLocation.column > this.state.enemyColumn ?
-                this.setState({ enemyColumn: this.state.enemyColumn+1, enemyDirection: "right"})
-                : this.setState({enemyColumn: this.state.enemyColumn-1, enemyDirection: "left"})
+                this.setState({ enemyColumn: this.state.enemyColumn+1, enemyDirection: "right", computerMoveCount: this.state.computerMoveCount+1})
+                : this.setState({enemyColumn: this.state.enemyColumn-1, enemyDirection: "left", computerMoveCount: this.state.computerMoveCount+1})
             : closestTreasureLocation.row > this.state.enemyRow ?
-                this.setState({enemyRow: this.state.enemyRow+1, enemyDirection: "down"})
-                : this.setState({enemyRow: this.state.enemyRow-1, enemyDirection: "up"})
+                this.setState({enemyRow: this.state.enemyRow+1, enemyDirection: "down", computerMoveCount: this.state.computerMoveCount+1})
+                : this.setState({enemyRow: this.state.enemyRow-1, enemyDirection: "up", computerMoveCount: this.state.computerMoveCount+1})
         this.props.updateGameBoard(this.updateComputerPositionOnGameBoard())
     }
 
     handleShipMove = (event) => {
         this.getTreasureLocations();
         this.checkGameEnd();
-        if (this.props.playerTurn === true){
+        if (this.props.playerTurn === true && this.state.alert===""){
            if (event.key === "ArrowUp" && this.state.playerRow > 0){
                 this.setState({
                     playerRow: this.state.playerRow-1,
@@ -383,7 +404,7 @@ class GameBoard extends React.Component {
                     playerMoveCount: this.state.playerMoveCount+1
                 })
             }
-            else if (event.key === "ArrowDown" && this.state.playerRow < 8){
+            else if (event.key === "ArrowDown" && this.state.playerRow < this.state.maxRows){
                 this.setState({
                     playerRow: this.state.playerRow+1,
                     playerDirection: "down",
@@ -397,7 +418,7 @@ class GameBoard extends React.Component {
                     playerMoveCount: this.state.playerMoveCount+1
                 })
             }
-            else if (event.key === "ArrowRight" && this.state.playerColumn < 13){
+            else if (event.key === "ArrowRight" && this.state.playerColumn < this.state.maxColumns){
                 this.setState({
                     playerColumn: this.state.playerColumn+1,
                     playerDirection: "right",
@@ -408,13 +429,12 @@ class GameBoard extends React.Component {
                 this.setState({ alert: "playerIllegalMove"})
             }
             this.props.updateGameBoard(this.updatePlayerPositionOnGameBoard())
-            this.checkTurn();
         }
     }
 
     checkTurn = () => {
-        if (this.state.playerMoveCount > 0 && this.state.playerMoveCount%2 === 0 && this.state.alert === "" && this.state.krakenTime === false){
-            this.props.updatePlayerTurn(false)
+        if ((this.state.playerMoveCount % 2 === 0) && this.state.alert === "" && this.state.krakenTime === false && this.props.playerTurn===true && this.state.computerMoveCount<=this.state.playerMoveCount) {
+            this.props.updatePlayerTurn(false);
             this.triggerComputerMove();
         }
     }
@@ -426,7 +446,7 @@ class GameBoard extends React.Component {
         }
         this.checkGameEndTimeout = setTimeout(()=> this.checkGameEnd(), 800)
         this.secondComputerMoveTimeout = setTimeout(()=>{if (this.state.gameEndConditions===false){this.handleEnemyMove()}}, 1000)
-        this.updatePlayerTurnTimeout = setTimeout(()=>{if (this.state.gameEndConditions===false){this.props.updatePlayerTurn(true)}}, 1500)
+        this.updatePlayerTurnTimeout = setTimeout(()=>{if (this.state.gameEndConditions===false){this.props.updatePlayerTurn(true)}}, 1000)
     }
 
     shuffleChallengeQuestions = () => {
@@ -451,6 +471,9 @@ class GameBoard extends React.Component {
                     resetAlertAndCheckTurn={this.resetAlertAndCheckTurn}
                     handleSameLevel={this.handleSameLevel}
                     handleNextLevel={this.handleNextLevel}
+                    callModalPause={this.callModalPause}
+                    cancelModalPause={this.cancelModalPause}
+                    playerLevel={this.props.playerLevel}
                 />
                 <ScoreBoard />
             </div>

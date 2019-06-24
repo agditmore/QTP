@@ -7,7 +7,7 @@ const HowToPlay = () => {
                 How To Play:
             </h4>
             <li>
-                It's your turn! Use your arrow keys to move your ship (located in the bottom right of the board) orthogonally across the board.
+                It's your turn! Use your arrow keys to move your ship (located in the bottom left of the board) orthogonally across the board. Both you and the enemy ship will move twice per turn.
             </li>
             <br />
             <li>
@@ -19,7 +19,7 @@ const HowToPlay = () => {
             </li>
             <br />
             <li>
-                Watch out for Whirlpools! They'll fling you across the ocean before you know it.
+                Watch out for whirlpools! They'll fling you across the ocean before you know it.
             </li>
         </div>
     )

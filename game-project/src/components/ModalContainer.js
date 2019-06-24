@@ -4,7 +4,7 @@ import { Modal, Button } from 'semantic-ui-react';
 const ModalContainer = (props) => {
     return(
         <>
-        <Modal open={props.krakenTime}>
+        <Modal open={props.krakenTime} onOpen={props.callModalPause}>
             <Modal.Header><h2>Oh no! You unleashed a Kraken!</h2></Modal.Header>
             <Modal.Content>{props.challengeQuestions[props.challengeQuestionNumber].question}</Modal.Content>
                 <div className="trivia-answer-container">
@@ -25,13 +25,13 @@ const ModalContainer = (props) => {
         <Modal open={props.alert === "computerKrakenSuccess"} size="mini">
             <Modal.Content>
                 <h2>The enemy ship defeated the Kraken!</h2>
-                <Button onClick={props.resetAlert}>OK</Button>
+                <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "computerKrakenFailure"} size="mini">
             <Modal.Content>
                 <h2>The enemy ship was defeated by the Kraken!</h2>
-                <Button onClick={props.resetAlert}>OK</Button>
+                <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "playerKrakenSuccess"} size="mini">

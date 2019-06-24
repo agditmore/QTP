@@ -31,6 +31,8 @@ class DisplayGameBoard extends React.Component {
                 computerScore={this.props.computerScore}
                 handleNextLevel={this.props.handleNextLevel}
                 handleSameLevel={this.props.handleSameLevel}
+                callModalPause={this.props.callModalPause}
+                cancelModalPause={this.props.cancelModalPause}
             />
             <div className="game-board-container" onKeyDown={this.props.handleShipMove} tabIndex="0">
                 {this.props.gameBoard.map((gameRow) => 

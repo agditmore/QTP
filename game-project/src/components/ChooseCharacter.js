@@ -19,7 +19,7 @@ class ChooseCharacter extends React.Component {
     }
 
     handleNameEnterPress = (event) => {
-        if (event.key === "Enter"){
+        if (event.key === "Enter" && this.state.characterName.trim() !== ''){
             this.props.changeCharacterName(this.state.characterName);
             this.setState({
                 showNameChoice: true
@@ -57,7 +57,7 @@ class ChooseCharacter extends React.Component {
                 }
                 </div>
                 {
-                this.state.boatChoice === 6 ?
+                this.state.boatChoice === '' ?
                 null
                 :
                 <>
