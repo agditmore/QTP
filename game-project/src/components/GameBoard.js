@@ -213,12 +213,14 @@ class GameBoard extends React.Component {
     }
 
     checkGameEnd = () => {
-        if (this.state.numberOfTreasureChests === 0 && this.state.playerMoveCount > 0){
-            this.setState({alert: "gameEnd", gameEndConditions: true,});
-        }
-        else if (this.props.computerLives === 0 || this.props.playerLives === 0){
-            this.setState({alert: "gameEnd", gameEndConditions: true,});
-        }
+        if (this.state.alert === ""){
+            if (this.state.numberOfTreasureChests === 0 && this.state.playerMoveCount > 0){
+                this.setState({alert: "gameEnd", gameEndConditions: true,});
+            }
+            else if (this.props.computerLives === 0 || this.props.playerLives === 0){
+                this.setState({alert: "gameEnd", gameEndConditions: true,});
+            }
+        } 
     }
 
     handleSameLevel = () => {
@@ -227,6 +229,7 @@ class GameBoard extends React.Component {
             playerMoveCount: 0,
             treasureLocations: [],
             gameEndConditions: false,
+            computerMoveCount: 0
         })
         this.props.resetLives({playerLives: 3, computerLives: 3});
         this.props.resetScores();
@@ -251,6 +254,7 @@ class GameBoard extends React.Component {
             playerMoveCount: 0,
             treasureLocations: [],
             gameEndConditions: false,
+            computerMoveCount: 0
         })
         this.props.resetScores();
         this.newGameGenerationTimeout = setTimeout(this.generateGameBoard, 200);
@@ -433,17 +437,15 @@ class GameBoard extends React.Component {
     }
 
     checkTurn = () => {
-        if ((this.state.playerMoveCount % 2 === 0) && this.state.alert === "" && this.state.krakenTime === false && this.props.playerTurn===true && this.state.computerMoveCount<=this.state.playerMoveCount) {
+        this.checkGameEnd();
+        if ((this.state.playerMoveCount % 2 === 0) && this.state.alert === "" && this.state.krakenTime === false && this.props.playerTurn===true && this.state.computerMoveCount<this.state.playerMoveCount) {
             this.props.updatePlayerTurn(false);
             this.triggerComputerMove();
         }
     }
 
     triggerComputerMove = () => {
-        this.checkGameEnd()
-        if (this.state.gameEndConditions===false){
-            this.firstComputerMoveTimeout = setTimeout(()=>this.handleEnemyMove(), 500)
-        }
+        this.firstComputerMoveTimeout = setTimeout(()=>this.handleEnemyMove(), 500)
         this.checkGameEndTimeout = setTimeout(()=> this.checkGameEnd(), 800)
         this.secondComputerMoveTimeout = setTimeout(()=>{if (this.state.gameEndConditions===false){this.handleEnemyMove()}}, 1000)
         this.updatePlayerTurnTimeout = setTimeout(()=>{if (this.state.gameEndConditions===false){this.props.updatePlayerTurn(true)}}, 1000)
