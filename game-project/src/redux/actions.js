@@ -10,7 +10,8 @@ export const increasePlayerLevel = () => ({ type: INCREASE_PLAYER_LEVEL })
 export const decreaseComputerLives = () => ({ type: DECREASE_COMPUTER_LIVES })
 export const decreasePlayerLives = () => ({ type: DECREASE_PLAYER_LIVES })
 export const resetLives = (payload) => ({ type: RESET_LIVES, payload })
-export const changeChallengeQuestions = (payload) => ({ type: CHANGE_CHALLENGE_QUESTIONS, payload})
+export const changeChallengeQuestions = (payload) => ({ type: CHANGE_CHALLENGE_QUESTIONS, payload })
+export const addKrakenQuestion = (payload) => ({ type: ADD_KRAKEN_QUESTION, payload })
 
 
 export const CHANGE_SCREEN = 'CHANGE_SCREEN'
@@ -26,3 +27,4 @@ export const DECREASE_PLAYER_LIVES = 'DECREASE_PLAYER_LIVES'
 export const DECREASE_COMPUTER_LIVES = 'DECREASE_COMPUTER_LIVES'
 export const RESET_LIVES = 'RESET_LIVES'
 export const CHANGE_CHALLENGE_QUESTIONS = 'CHANGE_CHALLENGE_QUESTIONS'
+export const ADD_KRAKEN_QUESTION = 'ADD_KRAKEN_QUESTION'

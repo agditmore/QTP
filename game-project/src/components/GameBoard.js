@@ -4,6 +4,9 @@ import DisplayGameBoard from './DisplayGameBoard';
 import ScoreBoard from './ScoreBoard';
 import { connect } from 'react-redux';
 import { updatePlayerTurn, updateGameBoard, changePlayerScore, changeComputerScore, changeScreen, increasePlayerLevel, resetScores, decreaseComputerLives, decreasePlayerLives, resetLives, changeChallengeQuestions } from './../redux/actions';
+import HowToPlay from './HowToPlay';
+import { Button } from 'semantic-ui-react';
+import MovesRemaining from './MovesRemaining';
 
 
 class GameBoard extends React.Component {
@@ -29,6 +32,7 @@ class GameBoard extends React.Component {
             challengeQuestionNumber: 0,
             gameEndConditions: false,
             computerMoveCount: 0,
+            counter: 2,
         }
     }
 
@@ -110,6 +114,11 @@ class GameBoard extends React.Component {
 
     resetAlert = () => {
         this.setState({alert: ""})
+    }
+
+    openAddQuestion = () => {
+        console.log("in function")
+        this.setState({alert: "addQuestion"}, ()=>console.log(this.state.alert))
     }
 
     handleWhirlpool = (ship) => {
@@ -213,7 +222,7 @@ class GameBoard extends React.Component {
     }
 
     checkGameEnd = () => {
-        if (this.state.alert === ""){
+        if (this.state.alert === "" && this.state.krakenTime === false){
             if (this.state.numberOfTreasureChests === 0 && this.state.playerMoveCount > 0){
                 this.setState({alert: "gameEnd", gameEndConditions: true,});
             }
@@ -306,7 +315,6 @@ class GameBoard extends React.Component {
             updatedGameBoard.push(updatedGameRow)
             updatedGameRow = [];}
         )
-        this.gameEndTimeout2 = setTimeout(this.checkGameEnd, 500)
         this.checkTurn();
         return updatedGameBoard;
     }
@@ -358,7 +366,7 @@ class GameBoard extends React.Component {
         )
         this.gameEndTimeout = setTimeout(this.checkGameEnd, 500)
         return updatedGameBoard;
-    }
+    } 
 
     getTreasureLocations = () => {
         const updatedTreasureLocations = [];
@@ -400,8 +408,9 @@ class GameBoard extends React.Component {
     handleShipMove = (event) => {
         this.getTreasureLocations();
         this.checkGameEnd();
-        if (this.props.playerTurn === true && this.state.alert===""){
-           if (event.key === "ArrowUp" && this.state.playerRow > 0){
+        if (this.props.playerTurn === true && this.state.alert==="" && this.state.counter > 0){
+            this.setState({counter: this.state.counter+1})
+            if (event.key === "ArrowUp" && this.state.playerRow > 0){
                 this.setState({
                     playerRow: this.state.playerRow-1,
                     playerDirection: "up",
@@ -463,21 +472,32 @@ class GameBoard extends React.Component {
     render(){
         return(
             <div>
-                <DisplayGameBoard 
-                    handleShipMove={this.handleShipMove}
-                    handleKrakenPlayer={this.handleKrakenPlayer}
-                    krakenTime={this.state.krakenTime}
-                    alert={this.state.alert}
-                    resetAlert={this.resetAlert}
-                    challengeQuestionNumber={this.state.challengeQuestionNumber}
-                    resetAlertAndCheckTurn={this.resetAlertAndCheckTurn}
-                    handleSameLevel={this.handleSameLevel}
-                    handleNextLevel={this.handleNextLevel}
-                    callModalPause={this.callModalPause}
-                    cancelModalPause={this.cancelModalPause}
-                    playerLevel={this.props.playerLevel}
-                />
-                <ScoreBoard />
+                <div className="gameplay-container">
+                    <DisplayGameBoard 
+                        handleShipMove={this.handleShipMove}
+                        handleKrakenPlayer={this.handleKrakenPlayer}
+                        krakenTime={this.state.krakenTime}
+                        alert={this.state.alert}
+                        resetAlert={this.resetAlert}
+                        challengeQuestionNumber={this.state.challengeQuestionNumber}
+                        resetAlertAndCheckTurn={this.resetAlertAndCheckTurn}
+                        handleSameLevel={this.handleSameLevel}
+                        handleNextLevel={this.handleNextLevel}
+                        callModalPause={this.callModalPause}
+                        cancelModalPause={this.cancelModalPause}
+                        playerLevel={this.props.playerLevel}
+                    />
+                    <HowToPlay />
+                </div>
+                <div className="additional-game-components-display">
+                    <MovesRemaining 
+                        computerMoveCount={this.state.computerMoveCount}
+                        playerMoveCount={this.state.playerMoveCount}
+                        playerTurn={this.props.playerTurn}
+                    />
+                    <ScoreBoard />
+                    <Button primary onClick={this.openAddQuestion} className="question-button">Add a Question</Button>
+                </div>
             </div>
         )
     }

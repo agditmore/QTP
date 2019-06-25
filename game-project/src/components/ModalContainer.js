@@ -1,24 +1,30 @@
 import React from 'react';
 import { Modal, Button } from 'semantic-ui-react';
+import AddQuestion from './AddQuestion';
 
 const ModalContainer = (props) => {
     return(
         <>
-        <Modal open={props.krakenTime} onOpen={props.callModalPause}>
+        <AddQuestion
+            openAddQuestion={props.openAddQuestion}
+            resetAlert={props.resetAlert}
+            alert={props.alert}
+        />
+        <Modal open={props.krakenTime}>
             <Modal.Header><h2>Oh no! You unleashed a Kraken!</h2></Modal.Header>
             <Modal.Content>{props.challengeQuestions[props.challengeQuestionNumber].question}</Modal.Content>
                 <div className="trivia-answer-container">
                 {props.challengeQuestions[props.challengeQuestionNumber].answers.map((answer)=>
-                        {if (props.challengeQuestions[props.challengeQuestionNumber].answers.indexOf(answer) === props.challengeQuestions[props.challengeQuestionNumber].correctAnswer){
-                                return(
-                                    <Button onClick={()=>props.handleKrakenPlayer("correct")}>{answer}</Button>
-                                )
-                            }
-                            else {
-                                return(
-                                    <Button onClick={()=>props.handleKrakenPlayer("incorrect")}>{answer}</Button>
-                            )}
+                    {if (props.challengeQuestions[props.challengeQuestionNumber].answers.indexOf(answer) === props.challengeQuestions[props.challengeQuestionNumber].correctAnswer){
+                            return(
+                                <Button onClick={()=>props.handleKrakenPlayer("correct")}>{answer}</Button>
+                            )
                         }
+                        else {
+                            return(
+                                <Button onClick={()=>props.handleKrakenPlayer("incorrect")}>{answer}</Button>
+                        )}
+                    }
                 )
                 }<br /></div>
         </Modal>

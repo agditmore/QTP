@@ -43,6 +43,7 @@ class ChooseCharacter extends React.Component {
     render() {
         return(
             <div className="character-choice-container">
+            <div className="image-selection-container">
                 <h1>
                     Choose your watercraft!
                 </h1>
@@ -55,12 +56,12 @@ class ChooseCharacter extends React.Component {
                         </div>
                     )
                 }
-                </div>
+                </div></div>
                 {
                 this.state.boatChoice === '' ?
                 null
                 :
-                <>
+                <div className="name-selection-container">
                 <h1>
                     Name your vessel!
                 </h1>
@@ -87,7 +88,7 @@ class ChooseCharacter extends React.Component {
                             </Modal.Content>
                         </Modal>
                     </div>
-                    </>
+                    </div>
                 }
             </div>
         )

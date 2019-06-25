@@ -13,10 +13,11 @@ import {
     DECREASE_PLAYER_LIVES,
     RESET_LIVES,
     CHANGE_CHALLENGE_QUESTIONS,
+    ADD_KRAKEN_QUESTION,
 } from './actions';
 
 const initialState = {
-    screen: 'welcome',
+    screen: 'playGame',
     characterName: 'Testing Pirate',
     characterImage: '',
     gameBoard: [],
@@ -27,7 +28,6 @@ const initialState = {
     playerTurn: true,
     playerLevel: 1,
     challengeQuestions: challenges,
-
 }
 
 export const reducer = (state = initialState, action) => {
@@ -58,6 +58,8 @@ export const reducer = (state = initialState, action) => {
             return {...state, playerLives: action.payload.playerLives, computerLives: action.payload.computerLives};
         case CHANGE_CHALLENGE_QUESTIONS:
             return {...state, challengeQuestions: action.payload}
+        case ADD_KRAKEN_QUESTION:
+            return {...state, challengeQuestions: state.challengeQuestions.push(action.payload)}
         default:
             return state;
     }

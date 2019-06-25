@@ -1,9 +1,15 @@
 import React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
+import Ocean from './../images/Ocean.jpg';
+
 
 const Welcome = (props) => {
+    const style = {
+        backgroundImage: `url(${Ocean})`,
+    }
     return(
-        <div className="welcome-page">
+        <div className="welcome-page" style={style}>
+            <div className="welcome-text">
             <h1>
                 Welcome to Game
             </h1>
@@ -16,7 +22,7 @@ const Welcome = (props) => {
                     <h3>Well, best get yourself back to shore! Farewell!</h3>
                 </Modal.Content>
             </Modal>
-
+            </div>
         </div>
     )
 }

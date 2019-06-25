@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -6,6 +7,8 @@
   display: flex;
   flex-direction: column;
   margin: 10px;
+  margin-left: 95px;
+  margin-right: 95px;
 }
 
 .game-row-container {
@@ -40,6 +43,7 @@ img {
   border-width: 1px;
   border-color: lightblue;
   border-radius: 10px;
+  height: 160px;
 }
 .entire-display-game-container {
   display: flex;
@@ -50,19 +54,47 @@ img {
   border-width: 1px;
   border-color: lightblue;
   border-radius: 10px;
-  height: 100%;
   margin: 10px 10px 0px 0px;
   padding: 10px 10px 10px 10px;
-  max-height: 450px;
+  height: 450px;
   overflow-y: auto;
 }
 
 .welcome-page {
   margin: 10px;
+  height: 700px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Lato';
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1400px 700px;
+  background-image: url('./images/Ocean.jpg')
+}
+
+.welcome-text {
+  padding-top: 200px;
 }
 
 .character-choice-container {
-  margin: 10px;
+  font-family: 'Lato';
+  color: #009999;
+}
+
+.image-selection-container {
+  background-image: url('./images/Waves.jpg');
+  background-color: rgb(252, 249, 238);
+  background-repeat: repeat-x;
+  background-position-y: 100px;
+  background-position-x: center;
+  height: 350px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.name-selection-container {
+  text-align: center;
+  background-color: rgb(252, 249, 238);
 }
 
 .boat-card {
@@ -81,18 +113,90 @@ img {
 .boats-container {
 display: flex;
 flex-direction: row;
-text-align: center;
+justify-content: center;
 }
 
 .boat-input-container {
 text-align: center;
+justify-content: center;
 }
 
 .character-choice-card {
   display: flex;
-  height: 50px;
+  height: 100px;
 }
 
 .trivia-answer-container {
   display: grid;
+}
+
+.gameplay-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.additional-game-components-display {
+  display: flex;
+  flex-direction: row;
+}
+
+.moves-remaining-container {
+  background-color: #2185d0;
+  border-radius: .28571429rem;
+  margin-left: 10px;
+  font-family: 'Lato';
+  color: #fff;
+  vertical-align: baseline;
+  font-weight: 700;
+  word-wrap: break-word;
+  width: 135px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.moves-remaining-text {
+  padding-top: 73px;
+}
+
+.question-container {
+  display: flex;
+}
+
+.question-header {
+  padding-right: 15px;
+}
+
+.answers-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.answer-container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+}
+
+.answer-field-container {
+  padding-left: 10px;
+}
+
+.difficulty-buttons {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 15px;
+}
+
+.difficulty-button {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.difficulty-radio {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: -10px;
 }

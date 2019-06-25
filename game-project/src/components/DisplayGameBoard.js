@@ -1,19 +1,9 @@
 import React from 'react';
 import ModalContainer from './ModalContainer';
 import GameCard from './GameCard';
-import HowToPlay from './HowToPlay';
 import { connect } from 'react-redux';
 
 class DisplayGameBoard extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-
-        }
-    }
-
-    levelClassName = "level-"+this.props.playerLevel
-    
     render() {
         return(
             <div className="entire-display-game-container">
@@ -46,10 +36,6 @@ class DisplayGameBoard extends React.Component {
                     </div>
                 )}
             </div>
-            {this.levelClassName === "level-1" ?
-            <HowToPlay />
-            :null
-            }
             </div>
         )
     }
