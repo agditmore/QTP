@@ -11,7 +11,7 @@ const Welcome = (props) => {
         <div className="welcome-page" style={style}>
             <div className="welcome-text">
             <h1>
-                Welcome to Game
+                Welcome to Shipwreact
             </h1>
             <h2>
                 Are you ready to begin your sea voyage?

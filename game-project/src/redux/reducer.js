@@ -14,10 +14,11 @@ import {
     RESET_LIVES,
     CHANGE_CHALLENGE_QUESTIONS,
     ADD_KRAKEN_QUESTION,
+    PLAY_EASTER_EGG,
 } from './actions';
 
 const initialState = {
-    screen: 'playGame',
+    screen: 'welcome',
     characterName: 'Testing Pirate',
     characterImage: '',
     gameBoard: [],
@@ -28,6 +29,7 @@ const initialState = {
     playerTurn: true,
     playerLevel: 1,
     challengeQuestions: challenges,
+    easterEgg: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -60,6 +62,8 @@ export const reducer = (state = initialState, action) => {
             return {...state, challengeQuestions: action.payload}
         case ADD_KRAKEN_QUESTION:
             return {...state, challengeQuestions: state.challengeQuestions.push(action.payload)}
+        case PLAY_EASTER_EGG:
+            return{...state, easterEgg: true}
         default:
             return state;
     }

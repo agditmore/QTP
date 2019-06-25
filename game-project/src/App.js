@@ -5,7 +5,7 @@ import Welcome from './components/Welcome';
 import ChooseCharacter from './components/ChooseCharacter';
 import GameBoard from './components/GameBoard';
 import FinalPage from './components/FinalPage';
-import { changeScreen, changeCharacterName, changeCharacterImage } from './redux/actions';
+import { changeScreen, changeCharacterName, changeCharacterImage, playEasterEgg } from './redux/actions';
 
 class App extends React.Component {
   handleChangeScreen = (newScreen) => {
@@ -28,10 +28,10 @@ class App extends React.Component {
             reduxCharacterName={this.props.characterName}
             changeScreen={this.handleChangeScreen}
             changeCharacterImage={this.props.changeCharacterImage}
+            playEasterEgg={this.props.playEasterEgg}
           />;
         case "playGame":
           return <GameBoard
-            gameBoard={this.props.gameBoard}
           />;
         case "finalPage":
           return <FinalPage />
@@ -54,6 +54,7 @@ const mapDispatchToProps = {
   changeScreen,
   changeCharacterName,
   changeCharacterImage,
+  playEasterEgg,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

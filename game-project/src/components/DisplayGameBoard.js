@@ -31,6 +31,7 @@ class DisplayGameBoard extends React.Component {
                         <GameCard 
                             gameSquare={gameSquare}
                             characterImage={this.props.characterImage}
+                            easterEgg={this.props.easterEgg}
                         />
                     )}
                     </div>
@@ -52,8 +53,8 @@ const mapStateToProps = (state) => {
         // screen: state.screen,
         playerLevel: state.playerLevel,
         challengeQuestions: state.challengeQuestions,
-        characterImage: state.characterImage
-          
+        characterImage: state.characterImage,
+        easterEgg: state.easterEgg
     }
 }
 

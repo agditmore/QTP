@@ -2,6 +2,9 @@ import React from 'react';
 import PirateShip from './../images/Ships/PirateShip.png';
 import Whirlpool from './../images/Whirlpool.jpg';
 import TreasureChest from './../images/TreasureChest.jpg';
+import Dragon from './../images/Dragon.png';
+import Feather from './../images/Feather.jpeg';
+import Tornado from './../images/Tornado.jpg';
 
 const GameCard = (props) => {
     switch (props.gameSquare.contains) {
@@ -12,27 +15,27 @@ const GameCard = (props) => {
         case "playerShip":
             return (
                 <div className="gameboard-block" id={props.gameSquare.id}>
-                    <img src={props.characterImage} alt="Player's Ship" />
+                    <img src={props.characterImage} alt="Player's Ship" className="game-img" />
                 </div>);
         case "computerShip":
             return (
                 <div className="gameboard-block" id={props.gameSquare.id}>
-                    <img src={PirateShip} alt="Computers Ship" />
+                    <img src={props.easterEgg ? Dragon : PirateShip} alt="Computers Ship" className="game-img" />
                 </div>);
         case "treasureChestTreasure":
             return (
                 <div className="gameboard-block" id={props.gameSquare.id}>
-                    <img src={TreasureChest} alt="Treasure Chest" />
+                    <img src={props.easterEgg ? Feather : TreasureChest} alt="Treasure Chest" className="game-img" />
                 </div>);
         case "treasureChestKraken":
             return (
                 <div className="gameboard-block" id={props.gameSquare.id}>
-                    <img src={TreasureChest} alt="Treasure Chest" />
+                    <img src={props.easterEgg ? Feather : TreasureChest} alt="Treasure Chest" className="game-img" />
                 </div>);
         case "whirlpool":
             return (
                 <div className="gameboard-block" id={props.gameSquare.id}>
-                    <img src={Whirlpool} alt="Whirlpool" />
+                    <img src={props.easterEgg ? Tornado: Whirlpool} alt="Whirlpool" className="game-img" />
                 </div>);
         default:
             return (<div></div>);

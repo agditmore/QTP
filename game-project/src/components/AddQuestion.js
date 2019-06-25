@@ -70,7 +70,7 @@ class AddQuestion extends React.Component {
             <Modal.Content>
                 <div className="question-container">
                     <div className="question-header"><h2>Question: </h2></div>
-                    <Input focus placeholder="Write question here" onChange={this.handleQuestionChange} />
+                    <Input focus fluid placeholder="Write question here" onChange={this.handleQuestionChange} />
                 </div>
                 <h2>Answers: </h2>
                 <p>Select the correct answer.</p>
@@ -80,7 +80,7 @@ class AddQuestion extends React.Component {
                     <div className="answer-container"><input type="radio" name="answer" 
                         checked={this.state.answersField.indexOf(answerField) === this.state.correctAnswerField} 
                         onChange={()=>this.handleAnswerSelection(this.state.answersField.indexOf(answerField))}></input>
-                        <div className="answer-field-container"><Input focus placeholder="Write answer here" onChange={(event)=>this.handleAnswerChange(event, this.state.answersField.indexOf(answerField))} /></div></div>
+                        <div className="answer-field-container"><Input focus fluid placeholder="Write answer here" onChange={(event)=>this.handleAnswerChange(event, this.state.answersField.indexOf(answerField))} /></div></div>
                     )
                 }
                 </div>
@@ -100,7 +100,7 @@ class AddQuestion extends React.Component {
                 </div>
                 </div>
                 <Button primary onClick={this.handleQuestionAddition}>Let's get Kraken!</Button>
-                <Button onClick={this.cancelAnswerAddition}></Button>
+                <Button onClick={this.cancelAnswerAddition}>I'll walk the plank instead.</Button>
             </Modal.Content>
         </Modal>
         </div>

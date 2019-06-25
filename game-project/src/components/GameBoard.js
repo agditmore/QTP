@@ -7,6 +7,7 @@ import { updatePlayerTurn, updateGameBoard, changePlayerScore, changeComputerSco
 import HowToPlay from './HowToPlay';
 import { Button } from 'semantic-ui-react';
 import MovesRemaining from './MovesRemaining';
+import Header from './Header';
 
 
 class GameBoard extends React.Component {
@@ -117,8 +118,7 @@ class GameBoard extends React.Component {
     }
 
     openAddQuestion = () => {
-        console.log("in function")
-        this.setState({alert: "addQuestion"}, ()=>console.log(this.state.alert))
+        this.setState({alert: "addQuestion"})
     }
 
     handleWhirlpool = (ship) => {
@@ -238,7 +238,8 @@ class GameBoard extends React.Component {
             playerMoveCount: 0,
             treasureLocations: [],
             gameEndConditions: false,
-            computerMoveCount: 0
+            computerMoveCount: 0,
+            counter: 2
         })
         this.props.resetLives({playerLives: 3, computerLives: 3});
         this.props.resetScores();
@@ -263,7 +264,8 @@ class GameBoard extends React.Component {
             playerMoveCount: 0,
             treasureLocations: [],
             gameEndConditions: false,
-            computerMoveCount: 0
+            computerMoveCount: 0,
+            counter: 2
         })
         this.props.resetScores();
         this.newGameGenerationTimeout = setTimeout(this.generateGameBoard, 200);
@@ -403,45 +405,52 @@ class GameBoard extends React.Component {
                 this.setState({enemyRow: this.state.enemyRow+1, enemyDirection: "down", computerMoveCount: this.state.computerMoveCount+1})
                 : this.setState({enemyRow: this.state.enemyRow-1, enemyDirection: "up", computerMoveCount: this.state.computerMoveCount+1})
         this.props.updateGameBoard(this.updateComputerPositionOnGameBoard())
+        this.setState({counter: 2})
     }
 
     handleShipMove = (event) => {
         this.getTreasureLocations();
         this.checkGameEnd();
         if (this.props.playerTurn === true && this.state.alert==="" && this.state.counter > 0){
-            this.setState({counter: this.state.counter+1})
             if (event.key === "ArrowUp" && this.state.playerRow > 0){
                 this.setState({
                     playerRow: this.state.playerRow-1,
                     playerDirection: "up",
-                    playerMoveCount: this.state.playerMoveCount+1
+                    playerMoveCount: this.state.playerMoveCount+1,
+                    counter: this.state.counter-1
                 })
             }
             else if (event.key === "ArrowDown" && this.state.playerRow < this.state.maxRows){
                 this.setState({
                     playerRow: this.state.playerRow+1,
                     playerDirection: "down",
-                    playerMoveCount: this.state.playerMoveCount+1
+                    playerMoveCount: this.state.playerMoveCount+1,
+                    counter: this.state.counter-1
                 })
             }
             else if (event.key === "ArrowLeft" && this.state.playerColumn > 0){
                 this.setState({
                     playerColumn: this.state.playerColumn-1,
                     playerDirection: "left",
-                    playerMoveCount: this.state.playerMoveCount+1
+                    playerMoveCount: this.state.playerMoveCount+1,
+                    counter: this.state.counter-1
                 })
             }
             else if (event.key === "ArrowRight" && this.state.playerColumn < this.state.maxColumns){
                 this.setState({
                     playerColumn: this.state.playerColumn+1,
                     playerDirection: "right",
-                    playerMoveCount: this.state.playerMoveCount+1
+                    playerMoveCount: this.state.playerMoveCount+1,
+                    counter: this.state.counter-1
                 }) 
             }
             else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight"){
                 this.setState({ alert: "playerIllegalMove"})
             }
             this.props.updateGameBoard(this.updatePlayerPositionOnGameBoard())
+        }
+        if (event.key === "^"){
+            this.handleNextLevel();
         }
     }
 
@@ -472,6 +481,7 @@ class GameBoard extends React.Component {
     render(){
         return(
             <div>
+                <Header />
                 <div className="gameplay-container">
                     <DisplayGameBoard 
                         handleShipMove={this.handleShipMove}
@@ -487,13 +497,14 @@ class GameBoard extends React.Component {
                         cancelModalPause={this.cancelModalPause}
                         playerLevel={this.props.playerLevel}
                     />
-                    <HowToPlay />
+                    {this.props.easterEgg ? null : <HowToPlay />}
                 </div>
                 <div className="additional-game-components-display">
                     <MovesRemaining 
                         computerMoveCount={this.state.computerMoveCount}
                         playerMoveCount={this.state.playerMoveCount}
                         playerTurn={this.props.playerTurn}
+                        playerLevel={this.props.playerLevel}
                     />
                     <ScoreBoard />
                     <Button primary onClick={this.openAddQuestion} className="question-button">Add a Question</Button>
@@ -515,6 +526,7 @@ const mapStateToProps = (state) => {
         playerLevel: state.playerLevel,
         challengeQuestions: state.challengeQuestions,
         characterImage: state.characterImage,
+        easterEgg: state.easterEgg,
     }
 }
 

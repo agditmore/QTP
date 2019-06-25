@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Modal, Input } from 'semantic-ui-react';
 import {boats} from './../Data';
+import Jetpack from './../images/Jetpack.jpeg';
 
 class ChooseCharacter extends React.Component {
     constructor(props) {
@@ -19,7 +20,13 @@ class ChooseCharacter extends React.Component {
     }
 
     handleNameEnterPress = (event) => {
-        if (event.key === "Enter" && this.state.characterName.trim() !== ''){
+        if (event.key === "Enter" && this.state.characterName.trim() === 'QTHULU'){
+            this.props.changeCharacterName("QDivision Apprentice");
+            this.props.changeCharacterImage(Jetpack);
+            this.props.playEasterEgg();
+            this.props.changeScreen("playGame");
+        }
+        else if (event.key === "Enter" && this.state.characterName.trim() !== ''){
             this.props.changeCharacterName(this.state.characterName);
             this.setState({
                 showNameChoice: true
@@ -51,7 +58,7 @@ class ChooseCharacter extends React.Component {
                 {
                     boats.map((boat) =>
                         <div className="boat-card">
-                            <img src={boat} alt="boat" />
+                            <img src={boat} alt="boat" className="game-img" />
                             <div className="boat-input-container"><input type="radio" name="boats" className="boat-input" checked={boat === this.state.boatChoice} onChange={()=>this.handleBoatSelection(boat)}></input></div>
                         </div>
                     )
@@ -65,7 +72,7 @@ class ChooseCharacter extends React.Component {
                 <h1>
                     Name your vessel!
                 </h1>
-                <Input focus type="text" placeholder="Type name here" onChange={this.handleNameInputChange} onKeyDown={this.handleNameEnterPress}>
+                <Input focus type="text" placeholder="Type name here" onChange={this.handleNameInputChange} onKeyDown={this.handleNameEnterPress} maxLength="20">
                 </Input> 
                     <div>
                         <br />
@@ -77,7 +84,7 @@ class ChooseCharacter extends React.Component {
                                     <h2>
                                         You've chosen: {this.props.reduxCharacterName} Ship 
                                     </h2>
-                                    <div className="character-image-choice-container"><img src={this.state.boatChoice} alt="player ship" /></div>
+                                    <div className="character-image-choice-container"><img src={this.state.boatChoice} alt="player ship" className="game-img" /></div>
                                     </div>
                                     <br />
                                 </Modal.Description>
