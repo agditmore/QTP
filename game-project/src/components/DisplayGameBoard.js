@@ -41,6 +41,7 @@ const DisplayGameBoard = ({
         computerScore={computerScore}
         handleNextLevel={handleNextLevel}
         handleSameLevel={handleSameLevel}
+        easterEgg={easterEgg}
       />
       <div
         className="game-board-container"
@@ -65,13 +66,11 @@ const DisplayGameBoard = ({
 
 const mapStateToProps = state => {
   return {
-    // playerTurn: state.playerTurn,
     gameBoard: state.gameBoard,
     playerScore: state.playerScore,
     playerLives: state.playerLives,
     computerScore: state.computerScore,
     computerLives: state.computerLives,
-    // screen: state.screen,
     playerLevel: state.playerLevel,
     challengeQuestions: state.challengeQuestions,
     characterImage: state.characterImage,

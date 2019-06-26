@@ -3,6 +3,15 @@ import { Modal, Button } from 'semantic-ui-react';
 import AddQuestion from './AddQuestion';
 
 const ModalContainer = (props) => {
+    let enemyEncounter =  '';
+    let randomEvent = '';
+    if (props.easterEgg){
+        enemyEncounter = "eagle attack";
+        randomEvent = "tornado";
+    } else {
+        enemyEncounter = "Kraken";
+        randomEvent = "whirlpool";
+    }
     return(
         <>
         <AddQuestion
@@ -11,18 +20,18 @@ const ModalContainer = (props) => {
             alert={props.alert}
         />
         <Modal open={props.krakenTime}>
-            <Modal.Header><h2>Oh no! You unleashed a Kraken!</h2></Modal.Header>
+            <Modal.Header><h2>Oh no! You unleashed a {enemyEncounter}!</h2></Modal.Header>
             <Modal.Content>{props.challengeQuestions[props.challengeQuestionNumber].question}</Modal.Content>
                 <div className="trivia-answer-container">
-                {props.challengeQuestions[props.challengeQuestionNumber].answers.map((answer)=>
-                    {if (props.challengeQuestions[props.challengeQuestionNumber].answers.indexOf(answer) === props.challengeQuestions[props.challengeQuestionNumber].correctAnswer){
+                {props.challengeQuestions[props.challengeQuestionNumber].answers.map((answerObject)=>
+                    {if (answerObject.id === props.challengeQuestions[props.challengeQuestionNumber].correctAnswer){
                             return(
-                                <Button onClick={()=>props.handleKrakenPlayer("correct")}>{answer}</Button>
+                                <Button onClick={()=>props.handleKrakenPlayer("correct")} key={answerObject.id}>{answerObject.answer}</Button>
                             )
                         }
                         else {
                             return(
-                                <Button onClick={()=>props.handleKrakenPlayer("incorrect")}>{answer}</Button>
+                                <Button onClick={()=>props.handleKrakenPlayer("incorrect")} key={answerObject.id}>{answerObject.answer}</Button>
                         )}
                     }
                 )
@@ -30,37 +39,37 @@ const ModalContainer = (props) => {
         </Modal>
         <Modal open={props.alert === "computerKrakenSuccess"} size="mini">
             <Modal.Content>
-                <h2>The enemy ship defeated the Kraken!</h2>
+                <h2>The enemy defeated the {enemyEncounter}!</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "computerKrakenFailure"} size="mini">
             <Modal.Content>
-                <h2>The enemy ship was defeated by the Kraken!</h2>
+                <h2>The enemy was defeated by the {enemyEncounter}!</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "playerKrakenSuccess"} size="mini">
             <Modal.Content>
-                <h2>Congratulations! You defeated the Kraken and survived the encounter unscathed.</h2>
+                <h2>Congratulations! You defeated the {enemyEncounter} and survived the encounter unscathed.</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "playerKrakenFailure"} size="mini">
             <Modal.Content>
-                <h2>Alas! You did not defeat the Kraken, and he wrathfully wrecked your ship. Only {props.playerLives} more shipwrecks before sinking!</h2>
+                <h2>Alas! You did not defeat the {enemyEncounter}. Only {props.playerLives} more {enemyEncounter}s before sinking!</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "playerFoundWhirlpool"} size="mini">
             <Modal.Content>
-                <h2>Your ship hit a whirlpool!</h2>
+                <h2>You hit a {randomEvent}!</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
         <Modal open={props.alert === "computerFoundWhirlpool"} size="mini">
             <Modal.Content>
-                <h2>The enemy ship hit a whirlpool!</h2>
+                <h2>The enemy hit a {randomEvent}!</h2>
                 <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
             </Modal.Content>
         </Modal>
