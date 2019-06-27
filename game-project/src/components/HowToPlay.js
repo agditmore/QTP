@@ -6,7 +6,7 @@ const HowToPlay = (props) => {
   let randomEvent = '';
   let winPoints = '';
   if (props.easterEgg) {
-    enemyEncounter = 'eagle attacks';
+    enemyEncounter = 'eagles';
     randomEvent = 'tornadoes';
     winPoints = 'golden feathers';
   } else {

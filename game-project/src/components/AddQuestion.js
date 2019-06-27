@@ -34,6 +34,7 @@ class AddQuestion extends React.Component {
       this.state.difficulty !== ''
     ) {
       this.props.addKrakenQuestion({
+        id: this.props.allChallengeQuestions.length,
         difficulty: this.state.difficulty,
         question: this.state.questionField,
         answers: this.state.answersField,
@@ -91,7 +92,7 @@ class AddQuestion extends React.Component {
             <p>Select the correct answer.</p>
             <div className="answers-container">
               {this.state.answersField.map(answerField => (
-                <div className="answer-container" key={answerField.id}>
+                <div className="answer-container" key={Math.random()}>
                   <input
                     type="radio"
                     name="answer"
@@ -175,6 +176,7 @@ class AddQuestion extends React.Component {
 const mapStateToProps = state => {
   return {
     easterEgg: state.easterEgg,
+    allChallengeQuestions: state.allChallengeQuestions,
   };
 };
 

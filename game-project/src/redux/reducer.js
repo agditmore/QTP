@@ -15,6 +15,7 @@ import {
     CHANGE_CHALLENGE_QUESTIONS,
     ADD_KRAKEN_QUESTION,
     PLAY_EASTER_EGG,
+    UPDATE_ALL_CHALLENGE_QUESTIONS,
 } from './actions';
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
     playerTurn: true,
     playerLevel: 1,
     challengeQuestions: challenges,
+    allChallengeQuestions: challenges,
     easterEgg: false,
 }
 
@@ -61,9 +63,11 @@ export const reducer = (state = initialState, action) => {
         case CHANGE_CHALLENGE_QUESTIONS:
             return {...state, challengeQuestions: action.payload}
         case ADD_KRAKEN_QUESTION:
-            return {...state, challengeQuestions: state.challengeQuestions.push(action.payload)}
+            return {...state, allChallengeQuestions: state.allChallengeQuestions.push(action.payload)}
         case PLAY_EASTER_EGG:
             return{...state, easterEgg: true}
+        case UPDATE_ALL_CHALLENGE_QUESTIONS:
+            return {...state, allChallengeQuestions: action.payload}
         default:
             return state;
     }

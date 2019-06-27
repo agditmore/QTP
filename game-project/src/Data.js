@@ -7,6 +7,7 @@ import Boat6 from './images/Ships/Boat6.jpg';
 
 export const challenges = [
   {
+    id: 0,
     difficulty: 'medium',
     question: 'Which ocean basin is the most geologically active?',
     answers: [
@@ -19,6 +20,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 1,
     difficulty: 'hard',
     question: 'What are thermohaline currents?',
     answers: [
@@ -34,6 +36,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 2,
     difficulty: 'medium',
     question: 'What type of water is more dense?',
     answers: [
@@ -46,6 +49,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 3,
     difficulty: 'easy',
     question: 'What are basalts?',
     answers: [
@@ -58,6 +62,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 4,
     difficulty: 'medium',
     question:
       'Which famous pirate was the first ship commander to circumnavigate the world successfully?',
@@ -71,6 +76,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 5,
     difficulty: 'hard',
     question:
       'What was the name of "One-Eyed" Willy\'s pirate ship in The Goonies?',
@@ -84,6 +90,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 6,
     difficulty: 'easy',
     question:
       "What ruthless, tyrannical pirate did Captain Hook purportedly sail under in J.M. Barrie's Peter Pan?",
@@ -97,9 +104,10 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 7,
     difficulty: 'easy',
     question:
-      'What is the ternical term for the black flag featuring the skill and crossbones that has become inextricably linked with pirate lore?',
+      'What is the technical term for the black flag featuring the skill and crossbones that has become inextricably linked with pirate lore?',
     answers: [
       { answer: "The Death's Head Flag", id: 0 },
       { answer: 'The Ruse de Guerre', id: 1 },
@@ -110,6 +118,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 8,
     difficulty: 'medium',
     question:
       'What name did pirates give to ships they successfully managed to sack?',
@@ -123,6 +132,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 9,
     difficulty: 'hard',
     question:
       'Which Caribbean port city was largely destroyed by a cataclysmic earthquake in June of 1692, leaving a hefty contingent of pirates to find another refuge and base of operations?',
@@ -136,6 +146,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 10,
     difficulty: 'hard',
     question:
       'The modern dollar sign ($) is derived from symbols that appeared on which infamous manner of pirate currency?',
@@ -149,6 +160,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 11,
     difficulty: 'medium',
     question:
       "What was the name of the ship that Jim Hawkins, Captain Alexander Smollett, and Long John Silver sail aboard in Robert Louis Stevenson's classic pirate story Treasure Island?",
@@ -162,9 +174,10 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 12,
     difficulty: 'easy',
     question:
-      'Which Romantic poet in 1814 penned an epic poem entitled "The Corsair," which was wildly popular in its time and partially responsible for the radically idealized and much0glamorized pirate lifestyle commonly presented to audiences today in films and television shows?',
+      'Which Romantic poet in 1814 penned an epic poem entitled "The Corsair," which was wildly popular in its time and partially responsible for the radically idealized and much-glamorized pirate lifestyle commonly presented to audiences today in films and television shows?',
     answers: [
       { answer: 'Percy Bysshe Shelley', id: 0 },
       { answer: 'Lord Byron', id: 1 },
@@ -175,6 +188,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 13,
     difficulty: 'easy',
     question:
       'Which of the following types of pirate was officially licensed by a sovereign nation to raid and seize goods carried by the ships of "hostile" nations?',
@@ -188,6 +202,7 @@ export const challenges = [
     asked: false,
   },
   {
+    id: 14,
     difficulty: 'medium',
     question:
       'What is the contemporary name for the Caribbean island that 16th century pirates referred to as Hispaniola?',

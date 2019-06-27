@@ -24,6 +24,7 @@ const DisplayGameBoard = ({
   gameBoard,
   characterImage,
   easterEgg,
+  gameEndConditions
 }) => {
   return (
     <div className="entire-display-game-container">
@@ -42,6 +43,7 @@ const DisplayGameBoard = ({
         handleNextLevel={handleNextLevel}
         handleSameLevel={handleSameLevel}
         easterEgg={easterEgg}
+        gameEndConditions={gameEndConditions}
       />
       <div
         className="game-board-container"
@@ -49,7 +51,7 @@ const DisplayGameBoard = ({
         tabIndex="0"
       >
         {gameBoard.map(gameRow => (
-          <div className="game-row-container">
+          <div className="game-row-container" key={gameBoard[gameRow]}>
             {gameRow.map(gameSquare => (
               <GameCard
                 gameSquare={gameSquare}

@@ -18,7 +18,7 @@ const ScoreBoard = props => {
         {props.easterEgg ? (
           <>
             <div>{props.playerScore} golden feathers</div>
-            <div>{props.playerLives} tornadoes before falling </div>
+            <div>{props.playerLives} eagle attacks before falling </div>
           </>
         ) : (
           <>
@@ -33,7 +33,7 @@ const ScoreBoard = props => {
             <img src={Dragon} alt="Computer's Ship" className="game-img" />
             <h4>One Missing Bracket</h4>
             <div>{props.computerScore} golden feathers</div>
-            <div>{props.computerLives} tornadoes before falling </div>
+            <div>{props.computerLives} eagle attacks before falling </div>
           </>
         ) : (
           <>

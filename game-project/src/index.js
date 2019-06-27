@@ -6,6 +6,7 @@ import './index.css';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import App from './App';
+import Error from './components/Error';
 import * as serviceWorker from './serviceWorker';
 import reducer from './redux/reducer';
 import 'semantic-ui-css/semantic.min.css';
@@ -18,7 +19,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Error>
+      <App />
+    </Error>
   </Provider>,
   document.getElementById('root'),
 );

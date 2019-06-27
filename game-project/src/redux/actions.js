@@ -13,6 +13,7 @@ export const RESET_LIVES = 'RESET_LIVES';
 export const CHANGE_CHALLENGE_QUESTIONS = 'CHANGE_CHALLENGE_QUESTIONS';
 export const ADD_KRAKEN_QUESTION = 'ADD_KRAKEN_QUESTION';
 export const PLAY_EASTER_EGG = 'PLAY_EASTER_EGG';
+export const UPDATE_ALL_CHALLENGE_QUESTIONS = 'UPDATE_ALL_CHALLENGE_QUESTIONS';
 
 export const changeScreen = payload => ({ type: CHANGE_SCREEN, payload });
 export const changeCharacterName = payload => ({
@@ -53,3 +54,7 @@ export const addKrakenQuestion = payload => ({
   payload,
 });
 export const playEasterEgg = () => ({ type: PLAY_EASTER_EGG });
+export const updateAllChallengeQuestions = payload => ({
+  type: UPDATE_ALL_CHALLENGE_QUESTIONS,
+  payload,
+});

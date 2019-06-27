@@ -99,7 +99,7 @@ class ChooseCharacter extends React.Component {
                   <Modal.Description>
                     <div className="character-choice-card">
                       <h2>
-                        You've chosen: {this.props.reduxCharacterName} Ship
+                        You've chosen: {this.props.reduxCharacterName}
                       </h2>
                       <div className="character-image-choice-container">
                         <img
