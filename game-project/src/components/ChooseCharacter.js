@@ -28,7 +28,12 @@ class ChooseCharacter extends React.Component {
       this.props.changeCharacterImage(Jetpack);
       this.props.playEasterEgg();
       this.props.changeScreen('playGame');
-    } else if (
+    } else if ( event.key === 'Enter' &&
+    this.state.characterName.trim() === 'DEMO') {
+        this.props.changeCharacterName('Demo Player');
+        this.props.toggleDemoMode();
+    }
+    else if (
       event.key === 'Enter' &&
       this.state.characterName.trim() !== ''
     ) {
@@ -59,7 +64,7 @@ class ChooseCharacter extends React.Component {
           <h1>Choose your watercraft!</h1>
           <div className="boats-container">
             {boats.map(boat => (
-              <div className="boat-card" key={boat}>
+              <div className="boat-card" key={boat} onClick={() => this.handleBoatSelection(boat)}>
                 <img src={boat} alt="boat" className="game-img" />
                 <div className="boat-input-container">
                   <input

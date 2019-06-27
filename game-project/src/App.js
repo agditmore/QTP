@@ -10,6 +10,7 @@ import {
   changeCharacterName,
   changeCharacterImage,
   playEasterEgg,
+  toggleDemoMode,
 } from './redux/actions';
 
 class App extends React.Component {
@@ -33,6 +34,7 @@ class App extends React.Component {
             changeScreen={this.handleChangeScreen}
             changeCharacterImage={this.props.changeCharacterImage}
             playEasterEgg={this.props.playEasterEgg}
+            toggleDemoMode={this.props.toggleDemoMode}
           />
         );
       case 'playGame':

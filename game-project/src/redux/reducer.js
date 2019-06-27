@@ -16,6 +16,7 @@ import {
     ADD_KRAKEN_QUESTION,
     PLAY_EASTER_EGG,
     UPDATE_ALL_CHALLENGE_QUESTIONS,
+    TOGGLE_DEMO_MODE,
 } from './actions';
 
 const initialState = {
@@ -32,6 +33,7 @@ const initialState = {
     challengeQuestions: challenges,
     allChallengeQuestions: challenges,
     easterEgg: false,
+    demoMode: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -68,6 +70,8 @@ export const reducer = (state = initialState, action) => {
             return{...state, easterEgg: true}
         case UPDATE_ALL_CHALLENGE_QUESTIONS:
             return {...state, allChallengeQuestions: action.payload}
+        case TOGGLE_DEMO_MODE:
+            return {...state, demoMode: !state.demoMode}
         default:
             return state;
     }

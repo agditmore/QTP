@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'semantic-ui-react';
+import { Modal, Button, TransitionablePortal } from 'semantic-ui-react';
 import AddQuestion from './AddQuestion';
 
 const ModalContainer = props => {
@@ -65,27 +65,34 @@ const ModalContainer = props => {
           <br />
         </div>
       </Modal>
-      <Modal open={props.alert === 'computerKrakenSuccess'} size="mini">
-        <Modal.Content>
-          <h2>The enemy defeated the {enemyEncounter}!</h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
-        </Modal.Content>
-      </Modal>
+      <TransitionablePortal
+        open={props.alert === 'computerKrakenSuccess'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={props.alert === 'computerKrakenSuccess'} size="mini">
+          <Modal.Content>
+            <h2>The enemy defeated the {enemyEncounter}!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal open={props.alert === 'computerKrakenFailure'} transition={{ animation: 'scale', duration: 750 }}>
       <Modal open={props.alert === 'computerKrakenFailure'} size="mini">
         <Modal.Content>
           <h2>The enemy was defeated by the {enemyEncounter}!</h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
         </Modal.Content>
       </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal open={props.alert === 'playerKrakenSuccess'} transition={{ animation: 'scale', duration: 750 }}>
       <Modal open={props.alert === 'playerKrakenSuccess'} size="mini">
         <Modal.Content>
           <h2>
             Congratulations! You defeated the {enemyEncounter} and survived the
             encounter unscathed.
           </h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
         </Modal.Content>
       </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal open={props.alert === 'playerKrakenFailure'} transition={{ animation: 'scale', duration: 750 }}>
       <Modal open={props.alert === 'playerKrakenFailure'} size="mini">
         <Modal.Content>
           {props.playerLives > 0 ? (
@@ -99,33 +106,50 @@ const ModalContainer = props => {
               float downwards...
             </h2>
           )}
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
         </Modal.Content>
       </Modal>
-      <Modal open={props.alert === 'playerFoundWhirlpool'} size="mini">
-        <Modal.Content>
-          <h2>You hit a {randomEvent}!</h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
-        </Modal.Content>
-      </Modal>
-      <Modal open={props.alert === 'computerFoundWhirlpool'} size="mini">
-        <Modal.Content>
-          <h2>The enemy hit a {randomEvent}!</h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
-        </Modal.Content>
-      </Modal>
-      <Modal open={props.alert === 'playerFoundTreasure'} size="mini">
-        <Modal.Content>
-          <h2>You struck gold!</h2>
-          <Button onClick={props.resetAlertAndCheckTurn}>OK</Button>
-        </Modal.Content>
-      </Modal>
-      <Modal open={props.alert === 'playerIllegalMove'} size="mini">
-        <Modal.Content>
-          <h2>Whoops! You almost fell off the board!</h2>
-          <Button onClick={props.resetAlert}>OK</Button>
-        </Modal.Content>
-      </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={props.alert === 'playerFoundWhirlpool'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={props.alert === 'playerFoundWhirlpool'} size="mini">
+          <Modal.Content>
+            <h2>You hit a {randomEvent}!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={props.alert === 'computerFoundWhirlpool'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={props.alert === 'computerFoundWhirlpool'} size="mini">
+          <Modal.Content>
+            <h2>The enemy hit a {randomEvent}!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={props.alert === 'playerFoundTreasure'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={props.alert === 'playerFoundTreasure'} size="mini">
+          <Modal.Content>
+            <h2>You struck gold!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={props.alert === 'playerIllegalMove'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={props.alert === 'playerIllegalMove'} size="mini">
+          <Modal.Content>
+            <h2>Whoops! You almost fell off the board!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal open={props.alert === 'gameEnd'} transition={{ animation: 'scale', duration: 750 }}>
       <Modal open={props.alert === 'gameEnd'}>
         {(props.playerScore > props.computerScore && props.playerLives > 0) ||
         props.computerLives === 0 ? (
@@ -162,6 +186,7 @@ const ModalContainer = props => {
           </>
         )}
       </Modal>
+      </TransitionablePortal>
     </>
   );
 };

@@ -18,7 +18,7 @@ import {
   updateAllChallengeQuestions,
 } from './../redux/actions';
 import HowToPlay from './HowToPlay';
-import { Button } from 'semantic-ui-react';
+import { Button, Progress } from 'semantic-ui-react';
 import MovesRemaining from './MovesRemaining';
 import Header from './Header';
 
@@ -34,7 +34,7 @@ class GameBoard extends React.Component {
       enemyColumn: 9,
       enemyDirection: '',
       treasureLocations: [],
-      numberOfTreasureChests: 0,
+      numberOfTreasureChests: 10,
       maxRows: 8,
       maxColumns: 9,
       maxWhirlpools: 5,
@@ -46,6 +46,8 @@ class GameBoard extends React.Component {
       gameEndConditions: false,
       computerMoveCount: 0,
       counter: 2,
+      pauseBetweenPlayerMoves: false,
+      progressPercent: 0,
     };
   }
 
@@ -71,6 +73,12 @@ class GameBoard extends React.Component {
     clearTimeout(this.checkGameEndTimeout);
     clearTimeout(this.checkTurnTimeout);
     clearTimeout(this.newGameGenerationTimeout);
+    clearTimeout(this.playerWhirlpoolAlertTimeout);
+    clearTimeout(this.computerWhirlpoolAlertTimeout);
+    clearTimeout(this.playerTreasureTimeout);
+    clearTimeout(this.illegalMoveTimeout);
+    clearTimeout(this.computerKrakenTimeout);
+    clearTimeout(this.playerKrakenTimeout);
   }
 
   generateGameBoard = () => {
@@ -142,9 +150,17 @@ class GameBoard extends React.Component {
     if (ship === 'playerShip') {
       this.setState({ alert: 'playerFoundTreasure' });
       this.props.changePlayerScore(1);
+      this.playerTreasureTimeout = setTimeout(
+        this.resetAlertAndCheckTurn,
+        1250,
+      );
     } else if (ship === 'computerShip') {
       this.props.changeComputerScore(1);
     }
+    this.setState({
+      numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
+    });
+    this.getProgressPercent();
   };
 
   resetAlertAndCheckTurn = () => {
@@ -173,6 +189,10 @@ class GameBoard extends React.Component {
           this.props.updateGameBoard(this.updatePlayerPositionOnGameBoard()),
         250,
       );
+      this.playerWhirlpoolAlertTimeout = setTimeout(
+        this.resetAlertAndCheckTurn,
+        1250,
+      );
     } else {
       this.setState({
         enemyRow: newRow,
@@ -183,6 +203,10 @@ class GameBoard extends React.Component {
         () =>
           this.props.updateGameBoard(this.updateComputerPositionOnGameBoard()),
         250,
+      );
+      this.computerWhirlpoolAlertTimeout = setTimeout(
+        this.resetAlertAndCheckTurn,
+        1250,
       );
     }
   };
@@ -286,9 +310,13 @@ class GameBoard extends React.Component {
       this.setState({ alert: 'computerKrakenFailure' });
       this.checkGameEnd();
     }
+    this.computerKrakenTimeout = setTimeout(this.resetAlertAndCheckTurn, 1250);
   };
 
   handleKrakenComputer = () => {
+    this.setState({
+      numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
+    });
     const randomNumberForOdds = Math.floor(Math.random() * 100) + 1;
     switch (this.props.playerLevel) {
       case 1:
@@ -307,16 +335,21 @@ class GameBoard extends React.Component {
         this.checkComputerKrakenSuccess(randomNumberForOdds, 99);
         break;
     }
+    this.getProgressPercent();
   };
 
   handleKrakenPlayer = (response, askedId) => {
-    this.setState({ krakenTime: false });
+    this.setState({
+      krakenTime: false,
+    });
+
     if (response === 'correct') {
       this.setState({ alert: 'playerKrakenSuccess' });
     } else if (response === 'incorrect') {
       this.props.decreasePlayerLives();
       this.setState({ alert: 'playerKrakenFailure' });
     }
+    this.playerKrakenTimeout = setTimeout(this.resetAlertAndCheckTurn, 2000);
 
     const updatedAskedQuestions = [];
     this.props.allChallengeQuestions.map(challengeQuestion => {
@@ -339,6 +372,7 @@ class GameBoard extends React.Component {
       this.shuffleChallengeQuestions();
       this.setState({ challengeQuestionNumber: 0 });
     }
+    this.getProgressPercent();
   };
 
   checkGameEnd = () => {
@@ -366,8 +400,12 @@ class GameBoard extends React.Component {
       gameEndConditions: false,
       computerMoveCount: 0,
       counter: 2,
+      progressPercent: 0,
     });
-    this.props.resetLives({ playerLives: 3, computerLives: 1 + this.props.playerLevel * 2, });
+    this.props.resetLives({
+      playerLives: 3,
+      computerLives: 1 + this.props.playerLevel * 2,
+    });
     this.props.resetScores();
     this.generateGameBoard();
     this.props.updatePlayerTurn(true);
@@ -391,6 +429,7 @@ class GameBoard extends React.Component {
       gameEndConditions: false,
       computerMoveCount: 0,
       counter: 2,
+      progressPercent: 0,
     });
     this.props.increasePlayerLevel();
     this.props.resetScores();
@@ -428,15 +467,12 @@ class GameBoard extends React.Component {
             case 'treasureChestTreasure':
               updatedGameRow.push({ ...gameCard, contains: ship });
               this.handleTreasure(ship);
-              this.setState({
-                numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
-              });
               break;
             case 'treasureChestKraken':
               updatedGameRow.push({ ...gameCard, contains: ship });
               this.setState({
-                numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
                 krakenTime: true,
+                numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
               });
               break;
             case 'whirlpool':
@@ -490,17 +526,11 @@ class GameBoard extends React.Component {
                 () => this.handleTreasure(ship),
                 150,
               );
-              this.setState({
-                numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
-              });
               this.checkGameEnd();
               break;
             case 'treasureChestKraken':
               this.handleKrakenComputer();
               updatedGameRow.push({ ...gameCard, contains: ship });
-              this.setState({
-                numberOfTreasureChests: this.state.numberOfTreasureChests - 1,
-              });
               break;
             case 'whirlpool':
               updatedGameRow.push({ ...gameCard, contains: 'sea' });
@@ -588,14 +618,24 @@ class GameBoard extends React.Component {
     this.setState({ counter: 2 });
   };
 
+  togglePause = () => {
+    this.setState({
+      pauseBetweenPlayerMoves: !this.state.pauseBetweenPlayerMoves,
+    });
+  };
+
   handleShipMove = event => {
     this.getTreasureLocations();
     this.checkGameEnd();
     if (
       this.props.playerTurn === true &&
       this.state.alert === '' &&
-      this.state.counter > 0
+      this.state.krakenTime === false &&
+      this.state.counter > 0 &&
+      this.state.pauseBetweenPlayerMoves === false
     ) {
+      this.togglePause();
+      this.playerPauseTimeout = setTimeout(this.togglePause, 250);
       if (event.key === 'ArrowUp' && this.state.playerRow > 0) {
         this.setState({
           playerRow: this.state.playerRow - 1,
@@ -637,6 +677,7 @@ class GameBoard extends React.Component {
         event.key === 'ArrowRight'
       ) {
         this.setState({ alert: 'playerIllegalMove' });
+        this.illegalMoveTimeout = setTimeout(this.resetAlert, 1250);
       }
       this.props.updateGameBoard(this.updatePlayerPositionOnGameBoard());
     }
@@ -734,6 +775,15 @@ class GameBoard extends React.Component {
     this.props.changeChallengeQuestions(shuffledQuestions);
   };
 
+  getProgressPercent = () => {
+    const percentageTreasures =
+      100 -
+      (this.state.numberOfTreasureChests /
+        (this.state.maxTreasures + this.state.maxKraken)) *
+        100;
+    this.setState({ progressPercent: percentageTreasures });
+  };
+
   render() {
     return (
       <div>
@@ -753,21 +803,24 @@ class GameBoard extends React.Component {
           />
           <HowToPlay easterEgg={this.props.easterEgg} />
         </div>
-        <div className="additional-game-components-display">
-          <MovesRemaining
-            computerMoveCount={this.state.computerMoveCount}
-            playerMoveCount={this.state.playerMoveCount}
-            playerTurn={this.props.playerTurn}
-            playerLevel={this.props.playerLevel}
-          />
-          <ScoreBoard />
-          <Button
-            primary
-            onClick={this.openAddQuestion}
-            className="question-button"
-          >
-            Add a Question
-          </Button>
+        <div>
+          <Progress percent={this.state.progressPercent} indicating />
+          <div className="additional-game-components-display">
+            <MovesRemaining
+              computerMoveCount={this.state.computerMoveCount}
+              playerMoveCount={this.state.playerMoveCount}
+              playerTurn={this.props.playerTurn}
+              playerLevel={this.props.playerLevel}
+            />
+            <ScoreBoard />
+            <Button
+              primary
+              onClick={this.openAddQuestion}
+              className="question-button"
+            >
+              Add a Question
+            </Button>
+          </div>
         </div>
       </div>
     );

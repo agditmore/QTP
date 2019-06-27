@@ -14,6 +14,7 @@ export const CHANGE_CHALLENGE_QUESTIONS = 'CHANGE_CHALLENGE_QUESTIONS';
 export const ADD_KRAKEN_QUESTION = 'ADD_KRAKEN_QUESTION';
 export const PLAY_EASTER_EGG = 'PLAY_EASTER_EGG';
 export const UPDATE_ALL_CHALLENGE_QUESTIONS = 'UPDATE_ALL_CHALLENGE_QUESTIONS';
+export const TOGGLE_DEMO_MODE = 'TOGGLE_DEMO_MODE';
 
 export const changeScreen = payload => ({ type: CHANGE_SCREEN, payload });
 export const changeCharacterName = payload => ({
@@ -58,3 +59,4 @@ export const updateAllChallengeQuestions = payload => ({
   type: UPDATE_ALL_CHALLENGE_QUESTIONS,
   payload,
 });
+export const toggleDemoMode = () => ({ type: TOGGLE_DEMO_MODE });
