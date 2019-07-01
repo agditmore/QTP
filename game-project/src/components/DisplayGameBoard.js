@@ -20,11 +20,10 @@ const DisplayGameBoard = ({
   computerScore,
   handleNextLevel,
   handleSameLevel,
-  handleShipMove,
   gameBoard,
   characterImage,
   easterEgg,
-  gameEndConditions
+  gameEndConditions,
 }) => {
   return (
     <div className="entire-display-game-container">
@@ -45,11 +44,7 @@ const DisplayGameBoard = ({
         easterEgg={easterEgg}
         gameEndConditions={gameEndConditions}
       />
-      <div
-        className="game-board-container"
-        onKeyDown={handleShipMove}
-        tabIndex="0"
-      >
+      <div className="game-board-container">
         {gameBoard.map(gameRow => (
           <div className="game-row-container" key={gameBoard[gameRow]}>
             {gameRow.map(gameSquare => (

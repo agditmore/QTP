@@ -1,3 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import Yikes from '../images/Yikes.jpg';
 

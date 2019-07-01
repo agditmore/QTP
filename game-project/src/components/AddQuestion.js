@@ -1,14 +1,22 @@
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Modal, Input, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { addKrakenQuestion } from './../redux/actions';
+import { addKrakenQuestion } from '../redux/actions';
 
 class AddQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       questionField: '',
-      answersField: ['', '', '', ''],
+      answersField: [
+        { answer: '', id: 0 },
+        { answer: '', id: 1 },
+        { answer: '', id: 2 },
+        { answer: '', id: 3 },
+      ],
       correctAnswerField: 4,
       difficulty: '',
     };
@@ -19,21 +27,27 @@ class AddQuestion extends React.Component {
   };
 
   handleAnswerChange = (event, index) => {
-    const { answersField } = this.state;
-    this.setState({ ...answersField, [index]: event.target.value });
+    const { answersField } = { ...this.state };
+    const currentState = answersField;
+    const { value } = event.target;
+    currentState[index].answer = value;
+    this.setState({
+      answersField: currentState,
+    });
   };
 
   handleQuestionAddition = () => {
     if (
       this.state.questionField.trim() !== '' &&
-      this.state.answersField[0].trim() !== '' &&
-      this.state.answersField[1].trim() !== '' &&
-      this.state.answersField[2].trim() !== '' &&
-      this.state.answersField[3].trim() !== '' &&
+      this.state.answersField[0].answer.trim() !== '' &&
+      this.state.answersField[1].answer.trim() !== '' &&
+      this.state.answersField[2].answer.trim() !== '' &&
+      this.state.answersField[3].answer.trim() !== '' &&
       this.state.correctAnswerField !== 4 &&
       this.state.difficulty !== ''
     ) {
-      this.props.addKrakenQuestion({
+      const newQuestions = this.props.allChallengeQuestions;
+      newQuestions.push({
         id: this.props.allChallengeQuestions.length,
         difficulty: this.state.difficulty,
         question: this.state.questionField,
@@ -41,8 +55,10 @@ class AddQuestion extends React.Component {
         correctAnswer: this.state.correctAnswerField,
         asked: false,
       });
-      this.props.resetAlert();
+      this.props.addKrakenQuestion(newQuestions);
+      this.clearFieldsAndResetAlert();
     } else {
+      // eslint-disable-next-line no-alert
       alert('Please ensure the form is filled out correctly!');
     }
   };
@@ -55,7 +71,28 @@ class AddQuestion extends React.Component {
     this.setState({ difficulty: level });
   };
 
-  cancelAnswerAddition = () => {
+  renderAnswerFields = answerField => {
+    return (
+      <div className="answer-container" key={answerField.id}>
+        <input
+          type="radio"
+          name="answer"
+          checked={answerField.id === this.state.correctAnswerField}
+          onChange={() => this.handleAnswerSelection(answerField.id)}
+        />
+        <div className="answer-field-container">
+          <Input
+            focus
+            placeholder="Write answer here"
+            onChange={event => this.handleAnswerChange(event, answerField.id)}
+            value={this.state.answersField[answerField.id].answer}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  clearFieldsAndResetAlert = () => {
     this.setState({
       questionField: '',
       answersField: [
@@ -91,28 +128,9 @@ class AddQuestion extends React.Component {
             <h2>Answers: </h2>
             <p>Select the correct answer.</p>
             <div className="answers-container">
-              {this.state.answersField.map(answerField => (
-                <div className="answer-container" key={Math.random()}>
-                  <input
-                    type="radio"
-                    name="answer"
-                    checked={answerField.id === this.state.correctAnswerField}
-                    onChange={() => this.handleAnswerSelection(answerField.id)}
-                  ></input>
-                  <div className="answer-field-container">
-                    <Input
-                      focus
-                      placeholder="Write answer here"
-                      onChange={event =>
-                        this.handleAnswerChange(
-                          event,
-                          this.state.answersField.indexOf(answerField),
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-              ))}
+              {this.state.answersField.map(answerField =>
+                this.renderAnswerFields(answerField),
+              )}
             </div>
             <h2>Difficulty Level: </h2>
             <div className="difficulty-buttons">
@@ -121,9 +139,7 @@ class AddQuestion extends React.Component {
                   <input
                     type="radio"
                     name="difficulty"
-                    onChange={event =>
-                      this.handleDifficultySelection(event, 'easy')
-                    }
+                    onChange={() => this.handleDifficultySelection('easy')}
                     checked={this.state.difficulty === 'easy'}
                   />
                 </div>
@@ -134,9 +150,7 @@ class AddQuestion extends React.Component {
                   <input
                     type="radio"
                     name="difficulty"
-                    onChange={event =>
-                      this.handleDifficultySelection(event, 'medium')
-                    }
+                    onChange={() => this.handleDifficultySelection('medium')}
                     checked={this.state.difficulty === 'medium'}
                   />
                 </div>
@@ -147,9 +161,7 @@ class AddQuestion extends React.Component {
                   <input
                     type="radio"
                     name="difficulty"
-                    onChange={event =>
-                      this.handleDifficultySelection(event, 'hard')
-                    }
+                    onChange={() => this.handleDifficultySelection('hard')}
                     checked={this.state.difficulty === 'hard'}
                   />
                 </div>
@@ -161,7 +173,7 @@ class AddQuestion extends React.Component {
                 ? "We'll pass with flying colors!"
                 : "Let's get Kraken!"}
             </Button>
-            <Button onClick={this.cancelAnswerAddition}>
+            <Button onClick={this.clearFieldsAndResetAlert}>
               {this.props.easterEgg
                 ? "I'd rather fly under the radar."
                 : "I'll walk the plank instead."}

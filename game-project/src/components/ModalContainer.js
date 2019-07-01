@@ -1,46 +1,68 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Modal, Button, TransitionablePortal } from 'semantic-ui-react';
 import AddQuestion from './AddQuestion';
 
-const ModalContainer = props => {
+const ModalContainer = ({
+  easterEgg,
+  openAddQuestion,
+  resetAlert,
+  alert,
+  krakenTime,
+  challengeQuestions,
+  challengeQuestionNumber,
+  handleKrakenPlayer,
+  playerLives,
+  computerLives,
+  playerScore,
+  computerScore,
+  handleSameLevel,
+  handleNextLevel,
+}) => {
   let enemyEncounter = '';
   let randomEvent = '';
-  if (props.easterEgg) {
+  let winPoints = '';
+  if (easterEgg) {
     enemyEncounter = 'eagle attack';
     randomEvent = 'tornado';
+    winPoints = 'golden feathers';
   } else {
     enemyEncounter = 'Kraken';
     randomEvent = 'whirlpool';
+    winPoints = 'treasure chests';
   }
+
   return (
     <>
       <AddQuestion
-        openAddQuestion={props.openAddQuestion}
-        resetAlert={props.resetAlert}
-        alert={props.alert}
+        openAddQuestion={openAddQuestion}
+        resetAlert={resetAlert}
+        alert={alert}
       />
-      <Modal open={props.krakenTime}>
+      <Modal open={krakenTime}>
         <Modal.Header>
           <h2>Oh no! You unleashed a {enemyEncounter}!</h2>
         </Modal.Header>
         <Modal.Content>
-          {props.challengeQuestions[props.challengeQuestionNumber].question}
+          {challengeQuestions[challengeQuestionNumber].question}
         </Modal.Content>
         <div className="trivia-answer-container">
-          {props.challengeQuestions[props.challengeQuestionNumber].answers.map(
+          {challengeQuestions[challengeQuestionNumber].answers.map(
             answerObject => {
               if (
                 answerObject.id ===
-                props.challengeQuestions[props.challengeQuestionNumber]
-                  .correctAnswer
+                challengeQuestions[challengeQuestionNumber].correctAnswer
               ) {
                 return (
                   <Button
                     onClick={() =>
-                      props.handleKrakenPlayer(
+                      handleKrakenPlayer(
                         'correct',
-                        props.challengeQuestions[props.challengeQuestionNumber]
-                          .id,
+                        challengeQuestions[challengeQuestionNumber].id,
                       )
                     }
                     key={answerObject.id}
@@ -48,11 +70,12 @@ const ModalContainer = props => {
                     {answerObject.answer}
                   </Button>
                 );
+                // eslint-disable-next-line no-else-return
               } else {
                 return (
                   <Button
                     onClick={() =>
-                      props.handleKrakenPlayer('incorrect', answerObject.id)
+                      handleKrakenPlayer('incorrect', answerObject.id)
                     }
                     key={answerObject.id}
                   >
@@ -66,126 +89,157 @@ const ModalContainer = props => {
         </div>
       </Modal>
       <TransitionablePortal
-        open={props.alert === 'computerKrakenSuccess'}
+        open={alert === 'computerKrakenSuccess'}
         transition={{ animation: 'scale', duration: 750 }}
       >
-        <Modal open={props.alert === 'computerKrakenSuccess'} size="mini">
+        <Modal open={alert === 'computerKrakenSuccess'} size="mini">
           <Modal.Content>
             <h2>The enemy defeated the {enemyEncounter}!</h2>
           </Modal.Content>
         </Modal>
       </TransitionablePortal>
-      <TransitionablePortal open={props.alert === 'computerKrakenFailure'} transition={{ animation: 'scale', duration: 750 }}>
-      <Modal open={props.alert === 'computerKrakenFailure'} size="mini">
-        <Modal.Content>
-          <h2>The enemy was defeated by the {enemyEncounter}!</h2>
-        </Modal.Content>
-      </Modal>
-      </TransitionablePortal>
-      <TransitionablePortal open={props.alert === 'playerKrakenSuccess'} transition={{ animation: 'scale', duration: 750 }}>
-      <Modal open={props.alert === 'playerKrakenSuccess'} size="mini">
-        <Modal.Content>
-          <h2>
-            Congratulations! You defeated the {enemyEncounter} and survived the
-            encounter unscathed.
-          </h2>
-        </Modal.Content>
-      </Modal>
-      </TransitionablePortal>
-      <TransitionablePortal open={props.alert === 'playerKrakenFailure'} transition={{ animation: 'scale', duration: 750 }}>
-      <Modal open={props.alert === 'playerKrakenFailure'} size="mini">
-        <Modal.Content>
-          {props.playerLives > 0 ? (
-            <h2>
-              Alas! You did not defeat the {enemyEncounter}. Only{' '}
-              {props.playerLives} more {enemyEncounter}s before sinking!
-            </h2>
-          ) : (
-            <h2>
-              Alas! You did not defeat the {enemyEncounter}. You're starting to
-              float downwards...
-            </h2>
-          )}
-        </Modal.Content>
-      </Modal>
-      </TransitionablePortal>
       <TransitionablePortal
-        open={props.alert === 'playerFoundWhirlpool'}
+        open={alert === 'computerKrakenFailure'}
         transition={{ animation: 'scale', duration: 750 }}
       >
-        <Modal open={props.alert === 'playerFoundWhirlpool'} size="mini">
+        <Modal open={alert === 'computerKrakenFailure'} size="mini">
+          <Modal.Content>
+            <h2>The enemy was defeated by the {enemyEncounter}!</h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={alert === 'playerKrakenSuccess'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={alert === 'playerKrakenSuccess'} size="mini">
+          <Modal.Content>
+            <h2>
+              Congratulations! You defeated the {enemyEncounter} and survived
+              the encounter unscathed.
+            </h2>
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={alert === 'playerKrakenFailure'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={alert === 'playerKrakenFailure'} size="mini">
+          <Modal.Content>
+            {playerLives > 0 ? (
+              <h2>
+                Alas! You did not defeat the {enemyEncounter}. Only{' '}
+                {playerLives} more {enemyEncounter}s before sinking!
+              </h2>
+            ) : (
+              <h2>
+                Alas! You did not defeat the {enemyEncounter}. You're starting
+                to float downwards...
+              </h2>
+            )}
+          </Modal.Content>
+        </Modal>
+      </TransitionablePortal>
+      <TransitionablePortal
+        open={alert === 'playerFoundWhirlpool'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={alert === 'playerFoundWhirlpool'} size="mini">
           <Modal.Content>
             <h2>You hit a {randomEvent}!</h2>
           </Modal.Content>
         </Modal>
       </TransitionablePortal>
       <TransitionablePortal
-        open={props.alert === 'computerFoundWhirlpool'}
+        open={alert === 'computerFoundWhirlpool'}
         transition={{ animation: 'scale', duration: 750 }}
       >
-        <Modal open={props.alert === 'computerFoundWhirlpool'} size="mini">
+        <Modal open={alert === 'computerFoundWhirlpool'} size="mini">
           <Modal.Content>
             <h2>The enemy hit a {randomEvent}!</h2>
           </Modal.Content>
         </Modal>
       </TransitionablePortal>
       <TransitionablePortal
-        open={props.alert === 'playerFoundTreasure'}
+        open={alert === 'playerFoundTreasure'}
         transition={{ animation: 'scale', duration: 750 }}
       >
-        <Modal open={props.alert === 'playerFoundTreasure'} size="mini">
+        <Modal open={alert === 'playerFoundTreasure'} size="mini">
           <Modal.Content>
             <h2>You struck gold!</h2>
           </Modal.Content>
         </Modal>
       </TransitionablePortal>
       <TransitionablePortal
-        open={props.alert === 'playerIllegalMove'}
+        open={alert === 'playerIllegalMove'}
         transition={{ animation: 'scale', duration: 750 }}
       >
-        <Modal open={props.alert === 'playerIllegalMove'} size="mini">
+        <Modal open={alert === 'playerIllegalMove'} size="mini">
           <Modal.Content>
             <h2>Whoops! You almost fell off the board!</h2>
           </Modal.Content>
         </Modal>
       </TransitionablePortal>
-      <TransitionablePortal open={props.alert === 'gameEnd'} transition={{ animation: 'scale', duration: 750 }}>
-      <Modal open={props.alert === 'gameEnd'}>
-        {(props.playerScore > props.computerScore && props.playerLives > 0) ||
-        props.computerLives === 0 ? (
-          <>
-            <Modal.Header>You won!</Modal.Header>
-            <Modal.Content>
-              <h4>Would you like to play the next level?</h4>
-              <Button primary onClick={props.handleNextLevel}>
-                Yes!
-              </Button>
-            </Modal.Content>
-            <Modal.Content>
-              <h4>Would you like to play the same level again?</h4>
-              <Button onClick={props.handleSameLevel}>Yes!</Button>
-            </Modal.Content>{' '}
-          </>
-        ) : props.playerScore === props.computerScore &&
-          props.playerLives > 0 &&
-          props.computerLives > 0 ? (
-          <>
-            <Modal.Header>You tied!</Modal.Header>
-            <Modal.Content>
-              <h4>Would you like to play again?</h4>
-              <Button onClick={props.handleSameLevel}>Yes!</Button>
-            </Modal.Content>
-          </>
-        ) : (
-          <>
-            <Modal.Header>You lost!</Modal.Header>
-            <Modal.Content>
-              <h4>Would you like to play again?</h4>
-              <Button onClick={props.handleSameLevel}>Yes!</Button>
-            </Modal.Content>
-          </>
-        )}
-      </Modal>
+      <TransitionablePortal
+        open={alert === 'gameEnd'}
+        transition={{ animation: 'scale', duration: 750 }}
+      >
+        <Modal open={alert === 'gameEnd'}>
+          {(playerScore > computerScore && playerLives > 0) ||
+          computerLives === 0 ? (
+            <>
+              <Modal.Header>
+                <h2>You won!</h2>
+              </Modal.Header>
+              <Modal.Content>
+                {computerLives === 0 ? (
+                  <h2>The enemy perished!</h2>
+                ) : (
+                  <h2>You acquired more {winPoints} than the enemy!</h2>
+                )}
+                <h4>Would you like to play the next level?</h4>
+                <Button primary onClick={handleNextLevel}>
+                  Yes!
+                </Button>
+              </Modal.Content>
+              <Modal.Content>
+                <h4>Would you like to play the same level again?</h4>
+                <Button onClick={handleSameLevel}>Yes!</Button>
+              </Modal.Content>
+            </>
+          ) : playerScore === computerScore &&
+            playerLives > 0 &&
+            computerLives > 0 ? (
+            <>
+              <Modal.Header>
+                <h2>You tied!</h2>
+              </Modal.Header>
+              <Modal.Content>
+                <h2>
+                  Your player and enemy acquired the same amount of {winPoints}.
+                </h2>
+                <h4>Would you like to play again?</h4>
+                <Button onClick={handleSameLevel}>Yes!</Button>
+              </Modal.Content>
+            </>
+          ) : (
+            <>
+              <Modal.Header>
+                <h2>You lost!</h2>
+              </Modal.Header>
+              <Modal.Content>
+                {playerLives === 0 ? (
+                  <h2>Your player perished!</h2>
+                ) : (
+                  <h2>The enemy acquired more {winPoints}.</h2>
+                )}
+                <h4>Would you like to play again?</h4>
+                <Button onClick={handleSameLevel}>Yes!</Button>
+              </Modal.Content>
+            </>
+          )}
+        </Modal>
       </TransitionablePortal>
     </>
   );

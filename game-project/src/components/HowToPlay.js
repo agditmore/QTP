@@ -1,11 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 
-const HowToPlay = (props) => {
+const HowToPlay = ({ easterEgg }) => {
   let enemyEncounter = '';
   let randomEvent = '';
   let winPoints = '';
-  if (props.easterEgg) {
+  if (easterEgg) {
     enemyEncounter = 'eagles';
     randomEvent = 'tornadoes';
     winPoints = 'golden feathers';
@@ -36,8 +37,8 @@ const HowToPlay = (props) => {
       </li>
       <br />
       <li>
-        Watch out for {randomEvent}! They'll fling you across the board before you
-        know it.
+        Watch out for {randomEvent}! They'll fling you across the board before
+        you know it.
       </li>
     </div>
   );

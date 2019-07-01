@@ -1,8 +1,17 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable consistent-return */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-else-return */
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable array-callback-return */
 import React from 'react';
+import { connect } from 'react-redux';
+import { Button, Progress } from 'semantic-ui-react';
 import DisplayGameBoard from './DisplayGameBoard';
 import ScoreBoard from './ScoreBoard';
-import { connect } from 'react-redux';
 import {
   updatePlayerTurn,
   updateGameBoard,
@@ -16,9 +25,8 @@ import {
   resetLives,
   changeChallengeQuestions,
   updateAllChallengeQuestions,
-} from './../redux/actions';
+} from '../redux/actions';
 import HowToPlay from './HowToPlay';
-import { Button, Progress } from 'semantic-ui-react';
 import MovesRemaining from './MovesRemaining';
 import Header from './Header';
 
@@ -48,12 +56,18 @@ class GameBoard extends React.Component {
       counter: 2,
       pauseBetweenPlayerMoves: false,
       progressPercent: 0,
+      gameLog: ["It's your turn! Use your arrow keys to move."],
+      showGameLog: false,
     };
+    this.enemyEncounter = this.props.easterEgg ? 'eagle attack' : 'Kraken';
+    this.randomEvent = this.props.easterEgg ? 'tornado' : 'whirlpool';
+    this.winPoints = this.props.easterEgg ? 'golden feather' : 'treasure chest';
   }
 
   componentDidMount() {
     document.addEventListener('keydown', this.handleShipMove);
     this.generateGameBoard();
+    this.filterChallengeQuestions();
     this.shuffleChallengeQuestions();
   }
 
@@ -79,6 +93,7 @@ class GameBoard extends React.Component {
     clearTimeout(this.illegalMoveTimeout);
     clearTimeout(this.computerKrakenTimeout);
     clearTimeout(this.playerKrakenTimeout);
+    clearTimeout(this.filterChallengeQuestions);
   }
 
   generateGameBoard = () => {
@@ -86,13 +101,13 @@ class GameBoard extends React.Component {
     for (
       let numberRows = 0;
       numberRows < this.state.maxRows + 1;
-      numberRows++
+      numberRows += 1
     ) {
-      let newRow = [];
+      const newRow = [];
       for (
         let numberColumns = 0;
         numberColumns < this.state.maxColumns + 1;
-        numberColumns++
+        numberColumns += 1
       ) {
         newRow.push({
           contains: 'sea',
@@ -112,7 +127,7 @@ class GameBoard extends React.Component {
     for (
       let numberWhirlpools = 0;
       numberWhirlpools < this.state.maxWhirlpools;
-      numberWhirlpools++
+      numberWhirlpools += 1
     ) {
       const [newRow, newColumn] = this.getRandomLocation(newGameBoard);
       newGameBoard[newRow][newColumn].contains = 'whirlpool';
@@ -120,7 +135,7 @@ class GameBoard extends React.Component {
     for (
       let numberTreasures = 0;
       numberTreasures < this.state.maxTreasures;
-      numberTreasures++
+      numberTreasures += 1
     ) {
       const [newRow, newColumn] = this.getRandomLocation(newGameBoard);
       newGameBoard[newRow][newColumn].contains = 'treasureChestTreasure';
@@ -128,7 +143,7 @@ class GameBoard extends React.Component {
     for (
       let numberKraken = 0;
       numberKraken < this.state.maxKraken;
-      numberKraken++
+      numberKraken += 1
     ) {
       const [newRow, newColumn] = this.getRandomLocation(newGameBoard);
       newGameBoard[newRow][newColumn].contains = 'treasureChestKraken';
@@ -303,11 +318,22 @@ class GameBoard extends React.Component {
   };
 
   checkComputerKrakenSuccess = (randomNumberForOdds, successChance) => {
+    const updatedGameLog = this.state.gameLog;
     if (randomNumberForOdds <= successChance) {
-      this.setState({ alert: 'computerKrakenSuccess' });
+      updatedGameLog.unshift(`The enemy defeated the ${this.enemyEncounter}`);
+      this.setState({
+        alert: 'computerKrakenSuccess',
+        gameLog: updatedGameLog,
+      });
     } else {
       this.props.decreaseComputerLives();
-      this.setState({ alert: 'computerKrakenFailure' });
+      updatedGameLog.unshift(
+        `The enemy was defeated by the ${this.enemyEncounter}`,
+      );
+      this.setState({
+        alert: 'computerKrakenFailure',
+        gameLog: updatedGameLog,
+      });
       this.checkGameEnd();
     }
     this.computerKrakenTimeout = setTimeout(this.resetAlertAndCheckTurn, 1250);
@@ -342,12 +368,14 @@ class GameBoard extends React.Component {
     this.setState({
       krakenTime: false,
     });
-
+    const updatedGameLog = this.state.gameLog;
     if (response === 'correct') {
-      this.setState({ alert: 'playerKrakenSuccess' });
+      updatedGameLog.unshift(`You defeated the ${this.enemyEncounter}`);
+      this.setState({ alert: 'playerKrakenSuccess', gameLog: updatedGameLog });
     } else if (response === 'incorrect') {
       this.props.decreasePlayerLives();
-      this.setState({ alert: 'playerKrakenFailure' });
+      updatedGameLog.unshift(`You were defeated by the ${this.enemyEncounter}`);
+      this.setState({ alert: 'playerKrakenFailure', gameLog: updatedGameLog });
     }
     this.playerKrakenTimeout = setTimeout(this.resetAlertAndCheckTurn, 2000);
 
@@ -401,6 +429,7 @@ class GameBoard extends React.Component {
       computerMoveCount: 0,
       counter: 2,
       progressPercent: 0,
+      gameLog: ["It's your turn! Use your arrow keys to move."],
     });
     this.props.resetLives({
       playerLives: 3,
@@ -415,7 +444,7 @@ class GameBoard extends React.Component {
   handleNextLevel = () => {
     let oddTreasureTest = Math.ceil(this.state.maxTreasures * 1.5);
     if (oddTreasureTest % 2 === 0) {
-      oddTreasureTest = oddTreasureTest + 1;
+      oddTreasureTest += 1;
     }
     this.setState({
       maxRows: Math.ceil(this.state.maxRows * 1.5),
@@ -430,6 +459,8 @@ class GameBoard extends React.Component {
       computerMoveCount: 0,
       counter: 2,
       progressPercent: 0,
+      gameLog: ["It's your turn! Use your arrow keys to move."],
+      challengeQuestionNumber: 0,
     });
     this.props.increasePlayerLevel();
     this.props.resetScores();
@@ -439,13 +470,21 @@ class GameBoard extends React.Component {
       playerLives: 3,
       computerLives: 1 + this.props.playerLevel * 2,
     });
-    this.shuffleChallengeQuestions();
+    this.filterQuestionsTimeout = setTimeout(
+      this.filterChallengeQuestions,
+      100,
+    );
+    this.shuffleQuestionsTimeout = setTimeout(
+      this.shuffleChallengeQuestions,
+      120,
+    );
     this.resetAlert();
   };
 
   updatePlayerPositionOnGameBoard = () => {
     const updatedGameBoard = [];
     let updatedGameRow = [];
+    const updatedGameLog = this.state.gameLog;
     const ship = 'playerShip';
 
     if (
@@ -466,6 +505,8 @@ class GameBoard extends React.Component {
               break;
             case 'treasureChestTreasure':
               updatedGameRow.push({ ...gameCard, contains: ship });
+              updatedGameLog.unshift(`You acquired a ${this.winPoints}`);
+              this.setState({ gameLog: updatedGameLog });
               this.handleTreasure(ship);
               break;
             case 'treasureChestKraken':
@@ -477,10 +518,14 @@ class GameBoard extends React.Component {
               break;
             case 'whirlpool':
               updatedGameRow.push({ ...gameCard, contains: 'sea' });
+              updatedGameLog.unshift(`You acquired a ${this.randomEvent}`);
+              this.setState({ gameLog: updatedGameLog });
               this.handleWhirlpool(ship);
               break;
             case 'computerShip':
               updatedGameRow.push({ ...gameCard, contains: ship });
+              updatedGameLog.unshift(`You collided with the enemy`);
+              this.setState({ gameLog: updatedGameLog });
               break;
             default:
               updatedGameRow.push(gameCard);
@@ -503,6 +548,7 @@ class GameBoard extends React.Component {
     const updatedGameBoard = [];
     let updatedGameRow = [];
     const ship = 'computerShip';
+    const updatedGameLog = this.state.gameLog;
 
     if (
       this.state.playerRow === this.state.enemyRow &&
@@ -526,6 +572,8 @@ class GameBoard extends React.Component {
                 () => this.handleTreasure(ship),
                 150,
               );
+              updatedGameLog.unshift(`The enemy acquired a ${this.winPoints}`);
+              this.setState({ gameLog: updatedGameLog });
               this.checkGameEnd();
               break;
             case 'treasureChestKraken':
@@ -535,9 +583,15 @@ class GameBoard extends React.Component {
             case 'whirlpool':
               updatedGameRow.push({ ...gameCard, contains: 'sea' });
               this.handleWhirlpool(ship);
+              updatedGameLog.unshift(
+                `The enemy encountered a ${this.randomEvent}`,
+              );
+              this.setState({ gameLog: updatedGameLog });
               break;
             case 'playerShip':
               updatedGameRow.push({ ...gameCard, contains: ship });
+              updatedGameLog.unshift('The enemy collided with you');
+              this.setState({ gameLog: updatedGameLog });
               break;
             default:
               updatedGameRow.push(gameCard);
@@ -722,50 +776,61 @@ class GameBoard extends React.Component {
   };
 
   filterChallengeQuestions = () => {
-    let unaskedQuestions = this.props.allChallengeQuestions.filter(
+    const unaskedQuestions = this.props.allChallengeQuestions.filter(
       challengeQuestion => challengeQuestion.asked === false,
     );
-    if (unaskedQuestions.length === 0) {
-      unaskedQuestions = [];
+
+    const checkedQuestions = this.checkFilteredQuestions(unaskedQuestions);
+
+    if (checkedQuestions.length > 0) {
+      return checkedQuestions;
+    } else {
+      const unaskAllQuestions = [];
       this.props.allChallengeQuestions.map(challengeQuestion =>
-        unaskedQuestions.push({ ...challengeQuestion, asked: false }),
+        unaskAllQuestions.push({ ...challengeQuestion, asked: false }),
       );
+      this.props.updateAllChallengeQuestions(unaskAllQuestions);
+      return this.checkFilteredQuestions(unaskAllQuestions);
     }
+  };
+
+  checkFilteredQuestions = questionList => {
     let filteredQuestions = [];
     switch (this.props.playerLevel) {
       case 1:
-        filteredQuestions = unaskedQuestions.filter(
+        filteredQuestions = questionList.filter(
           unaskedQuestion => unaskedQuestion.difficulty === 'easy',
         );
-        return filteredQuestions;
+        break;
       case 2:
-        filteredQuestions = unaskedQuestions.filter(
-          unaskedQuestion => unaskedQuestion.difficulty !== 'difficult',
+        filteredQuestions = questionList.filter(
+          unaskedQuestion => unaskedQuestion.difficulty !== 'hard',
         );
-        return filteredQuestions;
+        break;
       case 3:
-        filteredQuestions = unaskedQuestions.filter(
+        filteredQuestions = questionList.filter(
           unaskedQuestion => unaskedQuestion.difficulty === 'medium',
         );
-        return filteredQuestions;
+        break;
       case 4:
-        filteredQuestions = unaskedQuestions.filter(
+        filteredQuestions = questionList.filter(
           unaskedQuestion => unaskedQuestion.difficulty !== 'easy',
         );
-        return filteredQuestions;
+        break;
       default:
-        filteredQuestions = unaskedQuestions.filter(
+        filteredQuestions = questionList.filter(
           unaskedQuestion => unaskedQuestion.difficulty === 'hard',
         );
-        return filteredQuestions;
+        break;
     }
+    return filteredQuestions;
   };
 
   shuffleChallengeQuestions = () => {
     const shuffledQuestions = this.filterChallengeQuestions().map(
       question => question,
     );
-    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+    for (let i = shuffledQuestions.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffledQuestions[i], shuffledQuestions[j]] = [
         shuffledQuestions[j],
@@ -773,6 +838,14 @@ class GameBoard extends React.Component {
       ];
     }
     this.props.changeChallengeQuestions(shuffledQuestions);
+  };
+
+  getKrakenQuestion = () => {
+    if (this.props.challengeQuestions.length > 0) {
+      return this.props.challengeQuestions[this.state.challengeQuestionNumber];
+    } else {
+      this.shuffleChallengeQuestions();
+    }
   };
 
   getProgressPercent = () => {
@@ -784,11 +857,30 @@ class GameBoard extends React.Component {
     this.setState({ progressPercent: percentageTreasures });
   };
 
+  toggleShowGameLog = () => {
+    this.setState({ showGameLog: !this.state.showGameLog });
+  };
+
   render() {
     return (
       <div>
         <Header />
         <div className="gameplay-container">
+          <div className="game-log-display">
+            <Button onClick={this.toggleShowGameLog}>
+              {this.state.showGameLog ? 'Hide Game Log' : 'Show Game Log'}
+            </Button>
+            {this.state.showGameLog && (
+              <div className="game-log">
+                {this.state.gameLog.map(gameLogItem => (
+                  <div>
+                    {gameLogItem}
+                    <br />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <DisplayGameBoard
             handleShipMove={this.handleShipMove}
             handleKrakenPlayer={this.handleKrakenPlayer}

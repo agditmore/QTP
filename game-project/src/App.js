@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import './App.css';
 import { connect } from 'react-redux';
@@ -10,7 +12,6 @@ import {
   changeCharacterName,
   changeCharacterImage,
   playEasterEgg,
-  toggleDemoMode,
 } from './redux/actions';
 
 class App extends React.Component {
@@ -34,7 +35,6 @@ class App extends React.Component {
             changeScreen={this.handleChangeScreen}
             changeCharacterImage={this.props.changeCharacterImage}
             playEasterEgg={this.props.playEasterEgg}
-            toggleDemoMode={this.props.toggleDemoMode}
           />
         );
       case 'playGame':

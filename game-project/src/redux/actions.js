@@ -59,4 +59,3 @@ export const updateAllChallengeQuestions = payload => ({
   type: UPDATE_ALL_CHALLENGE_QUESTIONS,
   payload,
 });
-export const toggleDemoMode = () => ({ type: TOGGLE_DEMO_MODE });

@@ -212,7 +212,7 @@ justify-content: center;
   display: flex;
   text-align: center;
   /* color: #33a0bb; */
-  color: rgb(241, 192, 56);
+  color: rgb(248, 193, 43);
   background-color: rgb(10, 84, 114);
   font-size: 53pt;
   justify-content: center;
@@ -230,4 +230,17 @@ justify-content: center;
 
 .level-text {
   padding-top: 35px;
+}
+
+.game-log-display {
+  border: dotted;
+  border-width: 1px;
+  border-color: lightblue;
+  border-radius: 10px;
+  margin: 10px 10px 0px 0px;
+  padding: 10px 10px 10px 10px;
+  height: 450px;
+  max-width: 300px;
+  overflow-y: auto;
+  justify-content: center;
 }
