@@ -180,6 +180,7 @@ class GameBoard extends React.Component {
 
   resetAlertAndCheckTurn = () => {
     this.setState({ alert: '' });
+    this.checkGameEnd();
     this.checkTurnTimeout = setTimeout(this.checkTurn, 150);
   };
 
@@ -641,6 +642,9 @@ class GameBoard extends React.Component {
           Math.abs(location.column - this.state.enemyColumn),
       ),
     );
+    if (this.state.treasureLocations.length === 0) {
+      return;
+    }
     const minDistance = Math.min(...treasureDistance);
     const closestTreasureLocation = this.state.treasureLocations[
       treasureDistance.indexOf(minDistance)
@@ -759,10 +763,7 @@ class GameBoard extends React.Component {
       () => this.handleEnemyMove(),
       750,
     );
-    this.checkGameEndTimeout = setTimeout(
-      () => this.checkGameEndNoStops(),
-      1000,
-    );
+    this.checkGameEndTimeout = setTimeout(() => this.checkGameEnd(), 1000);
     this.secondComputerMoveTimeout = setTimeout(() => {
       if (this.state.gameEndConditions === false) {
         this.handleEnemyMove();
