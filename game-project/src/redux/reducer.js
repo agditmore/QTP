@@ -19,7 +19,7 @@ import {
 } from './actions';
 
 const initialState = {
-  screen: 'playGame',
+  screen: 'welcome',
   characterName: 'Testing Pirate',
   characterImage: '',
   gameBoard: [],
