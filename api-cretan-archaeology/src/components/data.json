@@ -1,0 +1,397 @@
+{
+    "sites": [
+        {
+            "name": "Azoria",
+            "periods": [
+                "LM IIIC",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Archaic",
+                "Hellenistic"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1179861,
+                "lng":25.8659748
+            }
+        },
+        {
+            "name": "Aori",
+            "periods": [
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.0870959,
+                "lng": 25.7853201
+            }
+        },
+        {
+            "name": "Vrokastro",
+            "periods": [
+                "MM IA",
+                "MM IB",
+                "MM IIA",
+                "MM IIB",
+                "LM IIIC",
+                "Protogeometric",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Roman"
+            ],
+            "type": ["Habitation", "Burial"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.119900,
+                "lng": 25.744700
+            }
+        },
+        {
+            "name": "Vronda",
+            "periods": [
+                "EM I",
+                "EM II",
+                "EM III",
+                "MM IA",
+                "MM IB",
+                "MM IIA",
+                "MM IIB",
+                "MM IIIA",
+                "MM IIIB",
+                "LM IIIA",
+                "LM IIIB",
+                "LM IIIC",
+                "Subminoan",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric"
+            ],
+            "type": ["Habitation", "Burial"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.110021,
+                "lng": 25.858300
+            }
+        },
+        {
+            "name": "Dreros",
+            "periods": [
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Archaic",
+                "Classical",
+                "Hellenistic",
+                "Roman"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.256667,
+                "lng": 25.628333
+            }
+        },
+        {
+            "name": "Kavousi",
+            "periods": [
+                "EM I",
+                "EM II",
+                "MM IB",
+                "MM IIA",
+                "MM IIB",
+                "LM IIIB",
+                "LM IIIC",
+                "Early Geometric",
+                "Classical",
+                "Hellenistic",
+                "Roman"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1240502,
+                "lng": 25.8526881
+            }
+        },
+        {
+            "name": "Karfi",
+            "periods": [
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.2179711,
+                "lng": 25.4699221
+            }
+        },
+        {
+            "name": "Kastellos Kato Vigli",
+            "periods": [
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1531824,
+                "lng": 25.6410793
+            }
+        },
+        {
+            "name": "Kastro",
+            "periods": [
+                "LM IIIC",
+                "Early Geometric",
+                "Middle Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.111076,
+                "lng": 25.867885
+            }
+        },
+        {
+            "name": "Leneka (near Elounda)",
+            "periods": [
+                "LM IIIB",
+                "LM IIIC",
+                "Early Geometric"
+            ],
+            "type": ["Habitation", "Burial"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.244874,
+                "lng": 25.685352
+            }
+        },
+        {
+            "name": "Pinakiano",
+            "periods": [
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1975098,
+                "lng": 25.4634678
+            }
+        },
+        {
+            "name": "Petras",
+            "periods": [
+                "MM IIIA",
+                "MM IIIB",
+                "LM IA",
+                "LM IB",
+                "LM IIIA",
+                "LM IIIB",
+                "LM IIIC",
+                "Early Geometric",
+                "Roman"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.197916,
+                "lng": 26.118177
+            }
+        },
+        {
+            "name": "Skalia",
+            "periods": [
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1050706,
+                "lng": 26.1922861
+            }
+        },
+        {
+            "name": "Spiliaridia",
+            "periods": [
+                "LM IIIC",
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.0364819,
+                "lng": 25.9335119
+            }
+        },
+        {
+            "name": "Stavromenos",
+            "periods": [
+                "LM IIIC",
+                "Early Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.077638,
+                "lng": 25.9879191
+            }
+        },
+        {
+            "name": "Dafni",
+            "periods": [
+                "Protogeometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1109685,
+                "lng": 25.8559313
+            }
+        },
+        {
+            "name": "Zakros/Itanos",
+            "periods": [
+                "LM IA",
+                "LM IB",
+                "Protogeometric",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Archaic",
+                "Hellenistic",
+                "Roman"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.0978891,
+                "lng": 26.2612749
+            }
+        },
+        {
+            "name": "Kastellos",
+            "periods": [
+                "Submycenaean",
+                "Protogeometric",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Archaic"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.0534901,
+                "lng": 25.5554238
+            }
+        },
+        {
+            "name": "Kastri Ambelos",
+            "periods": [
+                "LM IIIC",
+                "Protogeometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.0375121,
+                "lng": 26.2163728
+            }
+        },
+        {
+            "name": "Lato",
+            "periods": [
+                "Protogeometric",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric",
+                "Archaic",
+                "Hellenistic"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.2600524,
+                "lng": 25.2854339
+            }
+        },
+        {
+            "name": "Bebonas",
+            "periods": [
+                "EM III",
+                "MM IA",
+                "Protogeometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1123112,
+                "lng": 25.9030922
+            }
+        },
+        {
+            "name": "Praisos/Praesus",
+            "periods": [
+                "LM IIIC",
+                "Protogeometric",
+                "Early Geometric",
+                "Middle Geometric",
+                "Late Geometric"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.124577,
+                "lng": 26.089225
+            }
+        },
+        {
+            "name": "Agios Konstantinos",
+            "periods": [
+                "LM IIIB",
+                "LM IIIC",
+                "Subminoan"
+            ],
+            "type": ["Habitation", "Burial"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1748736,
+                "lng": 25.4993377
+            }
+        },
+        {
+            "name": "Armi",
+            "periods": [
+                "MM IIIA",
+                "MM IIIB",
+                "Subminoan"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1847651,
+                "lng": 25.5159145
+            }
+        },
+        {
+            "name": "Avgousti",
+            "periods": [
+                "Archaic",
+                "Classical",
+                "Hellenistic",
+                "Roman"
+            ],
+            "type": ["Habitation"],
+            "region": "Lasithi",
+            "location": {
+                "lat": 35.1565909,
+                "lng": 25.4971578
+            }
+        }
+    ]
+}

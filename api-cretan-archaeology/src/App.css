@@ -1,0 +1,65 @@
+.App {
+  text-align: center;
+}
+
+/* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+height: 100%;
+height: 400px;
+}
+#map-container {
+  width: 600px;
+
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+.site-display-container{
+  column-count: 2;
+  display: flex;
+  border: solid;
+  border-width: .5px;
+  border-color: gray;
+  justify-content: center;
+}
+.site-display-header{
+  width: 200px;
+}
+
+.site-name{
+  width: 200px;
+  font-weight: bold;
+}
+
+.site-periods{
+  width: 200px;
+}
+
+.menu {
+  background: white;
+  position: absolute;
+}
+.menu > hr {
+  margin: 5px 0;
+  border: 1px solid #ececec;
+}
+.menu-item {
+  color: #555;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.button {
+  text-align: left;
+  justify-content: left;
+}
+
+#button-div {
+  display: flex;
+  margin-left: 25px;
+}
