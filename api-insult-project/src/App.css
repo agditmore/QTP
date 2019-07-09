@@ -1,0 +1,20 @@
+.App {
+  text-align: center;
+}
+
+.saved-insults-container {
+  column-count: 2;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.saved-insults-column-1 {
+  margin-right: 10px;
+  text-align: right;
+  vertical-align: bottom;
+}
+.saved-insults-column-2 {
+  margin-left: 10px;
+  text-align: left;
+  vertical-align: bottom;
+}
